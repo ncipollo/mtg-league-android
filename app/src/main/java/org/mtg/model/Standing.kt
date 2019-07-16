@@ -12,19 +12,3 @@ data class Standing(
     val week4Record: String = "",
     val ranking: String = ""
 )
-
-/*
- {
-        "user_id": 25,
-        "first_name": "Nick",
-        "last_name": "Cipollo",
-        "office": "Boston 1 Federal",
-        "overall_record": "1-0",
-        "overall_points": 2,
-        "week1_record": "1-0",
-        "week2_record": "0-0",
-        "week3_record": "0-0",
-        "week4_record": "0-0",
-        "ranking": "2nd"
-}
- */

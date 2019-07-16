@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/scoreboardFragment">
+
+    <fragment
+        android:id="@+id/scoreboardFragment"
+        android:name="org.mtg.ScoreboardFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_scoreboard"/>
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="org.mtg.ReportFragment"
+        android:label="@string/app_name"
+        />
+    <fragment
+        android:id="@+id/standingsFragment"
+        android:name="org.mtg.StandingsFragment"
+        android:label="@string/app_name"
+        />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="org.mtg.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>

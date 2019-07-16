@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Magic League</string>
+
+    <string name="default_health_value">20</string>
+    <string name="bottom_navigation_play">Play</string>
+    <string name="bottom_navigation_play_add">+</string>
+    <string name="bottom_navigation_play_subtract">-</string>
+    <string name="bottom_navigation_report">Report</string>
+    <string name="bottom_navigation_standings">Standings</string>
+    <string name="settings_dark_mode_enabled">Dark mode enabled</string>
+    <string name="settings_title">Settings</string>
 </resources>

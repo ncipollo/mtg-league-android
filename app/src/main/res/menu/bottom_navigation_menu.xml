@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_play"
+        android:icon="@drawable/ic_videogame_asset_black_24dp"
+        android:title="@string/bottom_navigation_play" />
+    <item
+        android:id="@+id/navigation_standings"
+        android:icon="@drawable/ic_star_border_black_24dp"
+        android:title="@string/bottom_navigation_standings" />
+    <item
+        android:id="@+id/navigation_report"
+        android:icon="@drawable/ic_list_black_24dp"
+        android:title="@string/bottom_navigation_report" />
+</menu>
