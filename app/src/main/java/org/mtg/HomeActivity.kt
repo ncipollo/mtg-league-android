@@ -6,11 +6,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import org.koin.android.ext.android.inject
 import org.mtg.api.LeagueApi
+import org.mtg.api.StandingApi
 import org.mtg.api.UserApi
 import org.mtg.api.onApiErrorReturn
 
 class HomeActivity : AppCompatActivity() {
     private val leagueApi by inject<LeagueApi>()
+    private val standingApi by inject<StandingApi>()
     private val userApi by inject<UserApi>()
     private val compositeDisposable = CompositeDisposable()
 
@@ -19,11 +21,19 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         testLeague()
+        testStanding()
         testUser()
     }
 
     private fun testLeague() {
         leagueApi.leagues()
+            .onApiErrorReturn { emptyList() }
+            .subscribeBy { println(it) }
+            .also { compositeDisposable.add(it) }
+    }
+
+    private fun testStanding() {
+        standingApi.standingForLeague(8)
             .onApiErrorReturn { emptyList() }
             .subscribeBy { println(it) }
             .also { compositeDisposable.add(it) }
