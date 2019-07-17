@@ -1,5 +1,6 @@
 package org.mtg.api
 
+import android.content.Context
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import io.reactivex.schedulers.Schedulers
@@ -10,11 +11,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
-class ApiFactory(private val cacheDirectory: String) {
+class ApiFactory(private val context: Context) {
     companion object {
-        const val BASE_URL = "https://whispering-plateau-91662.herokuapp.com/api"
+        const val BASE_URL = "https://whispering-plateau-91662.herokuapp.com/api/"
         const val CACHE_SIZE = 10 * 1024 * 1024
-        const val TIMEOUT_SECONDS = 30
     }
     private val retrofit = createRetrofit()
 
@@ -26,6 +26,7 @@ class ApiFactory(private val cacheDirectory: String) {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(createGson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .baseUrl(BASE_URL)
             .build()
 
 
@@ -33,7 +34,7 @@ class ApiFactory(private val cacheDirectory: String) {
         GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
     private fun createOkhttp(): OkHttpClient {
-        val cacheFile = File(cacheDirectory, "httpCache")
+        val cacheFile = File(context.cacheDir, "httpCache")
         val cache = Cache(cacheFile, CACHE_SIZE.toLong())
         return OkHttpClient.Builder()
             .cache(cache)
