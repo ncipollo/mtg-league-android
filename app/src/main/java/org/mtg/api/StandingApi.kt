@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface StandingApi {
     @GET("leagues/{leagueId}/standings")
-    fun standingForLeague(@Path("leagueId") leagueId: Long) : Single<List<Standing>>
+    fun standingsForLeague(@Path("leagueId") leagueId: Long) : Single<List<Standing>>
 }

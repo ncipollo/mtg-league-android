@@ -13,9 +13,10 @@ import java.io.File
 
 class ApiFactory(private val context: Context) {
     companion object {
-        const val BASE_URL = "https://whispering-plateau-91662.herokuapp.com/api/"
+        const val BASE_URL = "https:///api.mtg-league.com/api/"
         const val CACHE_SIZE = 10 * 1024 * 1024
     }
+
     private val retrofit = createRetrofit()
 
     inline fun <reified T> createApi() = createApiFromClass(T::class.java)
@@ -27,8 +28,8 @@ class ApiFactory(private val context: Context) {
             .addConverterFactory(GsonConverterFactory.create(createGson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .baseUrl(BASE_URL)
+            .client(createOkhttp())
             .build()
-
 
     private fun createGson() =
         GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()

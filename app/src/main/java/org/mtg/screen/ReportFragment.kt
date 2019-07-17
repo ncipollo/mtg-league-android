@@ -1,4 +1,4 @@
-package org.mtg
+package org.mtg.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.bottom_navigation.bottom_navigation
 import kotlinx.android.synthetic.main.fragment_scoreboard.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
+import org.mtg.R
 import org.mtg.util.BottomNavigationHelper
 
 class ReportFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {

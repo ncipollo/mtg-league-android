@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".HomeActivity" >
+        <activity android:name=".screen.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

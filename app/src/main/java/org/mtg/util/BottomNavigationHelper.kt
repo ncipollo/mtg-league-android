@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mtg.R
-import org.mtg.settings.SharedPreferencesUtil
+import org.mtg.screen.settings.SharedPreferencesUtil
 
 class BottomNavigationHelper(context: Context) {
     private var darkModeEnabled = false

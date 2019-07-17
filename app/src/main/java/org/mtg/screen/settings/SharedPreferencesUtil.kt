@@ -1,9 +1,9 @@
-package org.mtg.settings
+package org.mtg.screen.settings
 
 import android.content.Context
 
 object SharedPreferencesUtil {
-    private const val PREFERENCES_FILE = "org.mtg.settings.preferences"
+    private const val PREFERENCES_FILE = "org.mtg.screen.settings.preferences"
     private const val DARK_MODE_KEY = "DARK_MODE_KEY"
 
     fun saveDarkMode(context: Context, value: Boolean) {

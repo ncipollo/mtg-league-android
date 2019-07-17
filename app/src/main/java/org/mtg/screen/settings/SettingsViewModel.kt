@@ -1,4 +1,4 @@
-package org.mtg.settings
+package org.mtg.screen.settings
 
 import android.content.Context
 import androidx.lifecycle.LiveData
