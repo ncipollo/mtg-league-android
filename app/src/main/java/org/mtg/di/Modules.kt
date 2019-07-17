@@ -1,10 +1,7 @@
 package org.mtg.di
 
 import org.koin.dsl.module
-import org.mtg.api.ApiFactory
-import org.mtg.api.LeagueApi
-import org.mtg.api.StandingApi
-import org.mtg.api.UserApi
+import org.mtg.api.*
 
 class Modules {
 
@@ -14,6 +11,7 @@ class Modules {
         single { ApiFactory(get()) }
 
         single { createApi<LeagueApi>(get()) }
+        single { createApi<MatchResultApi>(get()) }
         single { createApi<StandingApi>(get()) }
         single { createApi<UserApi>(get()) }
     }
