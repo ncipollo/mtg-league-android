@@ -7,6 +7,13 @@
     <string name="bottom_navigation_play_subtract">-</string>
     <string name="bottom_navigation_report">Report</string>
     <string name="bottom_navigation_standings">Standings</string>
+
+    <string name="report_title">Report Match</string>
+    <string name="report_winner">Winner</string>
+    <string name="report_loser">Loser</string>
+    <string name="report_submit">Submit</string>
+    <string name="report_games_played">Games played</string>
+
     <string name="settings_dark_mode_enabled">Dark mode enabled</string>
     <string name="settings_title">Settings</string>
     <string name="standings_week_one">Week 1</string>

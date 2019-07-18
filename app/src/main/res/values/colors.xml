@@ -10,4 +10,5 @@
     <color name="standingsCardBackground">@android:color/white</color>
     <color name="standingsDarkBackground">@android:color/black</color>
     <color name="standingsBackground">@color/settings_background</color>
+    <color name="editTextColor">@android:color/holo_blue_dark</color>
 </resources>

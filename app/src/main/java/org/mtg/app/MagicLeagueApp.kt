@@ -1,6 +1,7 @@
 package org.mtg.app
 
 import android.app.Application
+import android.content.Context
 import org.mtg.di.ApplicationInjector
 
 class MagicLeagueApp : Application() {
@@ -10,7 +11,7 @@ class MagicLeagueApp : Application() {
     companion object {
         private var instance: MagicLeagueApp? = null
 
-        fun applicationContext() = instance!!.applicationContext
+        fun applicationContext(): Context = instance!!.applicationContext
     }
 
     override fun onCreate() {
