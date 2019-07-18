@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.bottom_navigation.bottom_navigation
 import kotlinx.android.synthetic.main.fragment_standings.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.mtg.R
 import org.mtg.arch.ItemListAdapter
 import org.mtg.util.BottomNavigationHelper
@@ -28,7 +27,7 @@ class StandingsFragment : Fragment(), BottomNavigationView.OnNavigationItemSelec
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_standings, container, false)
 
-    private val bottomNavigationHelper: BottomNavigationHelper by inject { parametersOf(requireActivity()) }
+    private val bottomNavigationHelper: BottomNavigationHelper by inject()
     private val itemsAdapter: ItemListAdapter by inject()
     private val viewModel: StandingsViewModel by viewModel()
 

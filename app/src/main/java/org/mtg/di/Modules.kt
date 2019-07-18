@@ -1,7 +1,5 @@
 package org.mtg.di
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.mtg.api.*
@@ -13,7 +11,6 @@ import org.mtg.screen.settings.SettingsUseCase
 import org.mtg.screen.settings.SettingsViewModel
 import org.mtg.screen.settings.SharedPreferencesUtil
 import org.mtg.screen.standings.StandingViewHolder
-import org.mtg.screen.standings.StandingsUseCase
 import org.mtg.screen.standings.StandingsViewModel
 import org.mtg.util.BottomNavigationHelper
 
@@ -34,7 +31,7 @@ class Modules {
     }
 
     private fun helpers() = module {
-        factory { (activity: AppCompatActivity) -> BottomNavigationHelper(activity) }
+        factory { BottomNavigationHelper(isDarkMode()) }
     }
 
     private fun settingsScreen() = module {
@@ -44,18 +41,17 @@ class Modules {
 
     private fun standingsScreen() = module {
         factory { createStandingsAdapter() }
-        factory { StandingsUseCase(get()) }
         viewModel { StandingsViewModel(get(), get()) }
     }
 
     private fun createStandingsAdapter(): ItemListAdapter {
         val factory = itemViewHolderFactory {
-            viewHolder { StandingViewHolder(it, isDarkMode(it.context)) }
+            viewHolder { StandingViewHolder(it, isDarkMode()) }
         }
         return ItemListAdapter(factory)
     }
 
-    private fun isDarkMode(context: Context) = SharedPreferencesUtil.darkMode(context)
+    private fun isDarkMode() = SharedPreferencesUtil.darkMode()
 
 
     private inline fun <reified T> createApi(apiFactory: ApiFactory) = apiFactory.createApi<T>()

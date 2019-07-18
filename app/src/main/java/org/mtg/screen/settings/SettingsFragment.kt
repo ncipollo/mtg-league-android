@@ -22,16 +22,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val darkModeSwitch: SwitchPreferenceCompat? = findPreference<SwitchPreferenceCompat>(DARK_MODE_KEY)
-        viewModel.darkMode(context!!).observe(viewLifecycleOwner, Observer {
+        viewModel.darkMode().observe(viewLifecycleOwner, Observer {
             darkModeSwitch?.isChecked = it
         })
         listView.setBackgroundColor(ContextCompat.getColor(view.context, R.color.settings_background))
 
         darkModeSwitch?.setOnPreferenceClickListener { item ->
             if ((item as SwitchPreferenceCompat?)?.isChecked == true) {
-                viewModel.saveDarkMode(context!!, true)
+                viewModel.saveDarkMode(true)
             } else {
-                viewModel.saveDarkMode(context!!, false)
+                viewModel.saveDarkMode(false)
             }
             requireActivity().recreate()
             true

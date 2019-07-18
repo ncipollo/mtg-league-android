@@ -10,7 +10,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
 import org.mtg.R
 import org.mtg.util.BottomNavigationHelper
 
@@ -23,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
         )
     }
 
-    private val bottomNavigationHelper: BottomNavigationHelper by inject { parametersOf(this) }
+    private val bottomNavigationHelper: BottomNavigationHelper by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

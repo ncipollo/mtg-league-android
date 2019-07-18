@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.bottom_navigation.*
 import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
 import org.mtg.R
 import org.mtg.util.BottomNavigationHelper
 
@@ -22,7 +21,7 @@ class ScoreboardFragment : Fragment(), BottomNavigationView.OnNavigationItemSele
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_scoreboard, container, false)
 
-    private val bottomNavigationHelper: BottomNavigationHelper by inject { parametersOf(requireActivity()) }
+    private val bottomNavigationHelper: BottomNavigationHelper by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

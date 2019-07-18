@@ -1,12 +1,11 @@
 package org.mtg.screen.settings
 
-import android.content.Context
 import io.reactivex.SingleTransformer
 
 class SettingsUseCase {
     sealed class Action {
-        data class Save(val context: Context, val value: Boolean) : Action()
-        data class Fetch(val context: Context) : Action()
+        data class Save(val value: Boolean) : Action()
+        object Fetch : Action()
     }
 
     sealed class Result {
@@ -18,11 +17,11 @@ class SettingsUseCase {
         source.map { action ->
             when (action) {
                 is Action.Save -> {
-                    SharedPreferencesUtil.saveDarkMode(action.context, action.value)
+                    SharedPreferencesUtil.saveDarkMode(action.value)
                     Result.Saved
                 }
                 is Action.Fetch -> {
-                    val darkMode = SharedPreferencesUtil.darkMode(action.context)
+                    val darkMode = SharedPreferencesUtil.darkMode()
                     Result.Retrieved(darkMode)
                 }
             }

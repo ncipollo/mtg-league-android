@@ -6,21 +6,15 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mtg.R
-import org.mtg.screen.settings.SharedPreferencesUtil
 
-class BottomNavigationHelper(context: Context) {
-    private var darkModeEnabled = false
-
-    init {
-        darkModeEnabled = SharedPreferencesUtil.darkMode(context)
-    }
+class BottomNavigationHelper(private val darkModeEnabled: Boolean) {
 
     fun setupBottomNavigationTheme(context: Context, view: BottomNavigationView) {
         view.itemIconTintList =
             ContextCompat.getColorStateList(context, bottomNavigationColorStateList())
         view.itemTextColor =
             ContextCompat.getColorStateList(context, bottomNavigationColorStateList())
-        val color = if (darkModeEnabled()) {
+        val color = if (darkModeEnabled) {
             R.color.colorAccent
         } else {
             R.color.colorPrimary
@@ -29,23 +23,21 @@ class BottomNavigationHelper(context: Context) {
     }
 
     private fun bottomNavigationColorStateList() =
-        if (darkModeEnabled()) {
+        if (darkModeEnabled) {
             R.color.navigation_icon_background_dark
         } else {
             R.color.navigation_icon_background_light
         }
-
-    private fun darkModeEnabled() = darkModeEnabled
-
+    
     fun themeId() =
-        if (darkModeEnabled()) {
+        if (darkModeEnabled) {
             R.style.AppThemeDark
         } else {
             R.style.AppThemeLight
         }
 
     fun menuItemColor() =
-        if (darkModeEnabled()) {
+        if (darkModeEnabled) {
             R.color.colorPrimary
         } else {
             R.color.colorAccent

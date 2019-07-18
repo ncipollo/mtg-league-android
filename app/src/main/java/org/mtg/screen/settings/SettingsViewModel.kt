@@ -1,6 +1,5 @@
 package org.mtg.screen.settings
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,16 +10,16 @@ class SettingsViewModel(private val settingsUseCase: SettingsUseCase) : ViewMode
     private val darkModeLiveData = MutableLiveData<Boolean>()
     private val disposeBag = CompositeDisposable()
 
-    fun saveDarkMode(context: Context, value: Boolean) {
+    fun saveDarkMode(value: Boolean) {
         disposeBag.add(
-            Single.just(SettingsUseCase.Action.Save(context, value))
+            Single.just(SettingsUseCase.Action.Save(value))
                 .compose(settingsUseCase.create()).subscribe()
         )
     }
 
-    fun darkMode(context: Context): LiveData<Boolean> {
+    fun darkMode(): LiveData<Boolean> {
         disposeBag.add(
-            Single.just(SettingsUseCase.Action.Fetch(context))
+            Single.just(SettingsUseCase.Action.Fetch)
                 .compose(settingsUseCase.create())
                 .subscribe { darkMode ->
                     darkModeLiveData.postValue((darkMode as SettingsUseCase.Result.Retrieved?)?.value)
