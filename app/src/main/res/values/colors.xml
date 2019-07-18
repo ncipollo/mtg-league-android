@@ -5,4 +5,9 @@
     <color name="colorAccent">@android:color/black</color>
     <color name="settings_background">@android:color/darker_gray</color>
     <color name="textColorPrimary">@android:color/white</color>
+    <color name="textDarkColorPrimary">@android:color/black</color>
+    <color name="standingsDarkCardBackground">#212121</color>
+    <color name="standingsCardBackground">@android:color/white</color>
+    <color name="standingsDarkBackground">@android:color/black</color>
+    <color name="standingsBackground">@color/settings_background</color>
 </resources>

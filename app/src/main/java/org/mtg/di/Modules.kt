@@ -1,5 +1,6 @@
 package org.mtg.di
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -10,6 +11,7 @@ import org.mtg.repository.LeagueRemoteRepository
 import org.mtg.repository.StandingRemoteRepository
 import org.mtg.screen.settings.SettingsUseCase
 import org.mtg.screen.settings.SettingsViewModel
+import org.mtg.screen.settings.SharedPreferencesUtil
 import org.mtg.screen.standings.StandingViewHolder
 import org.mtg.screen.standings.StandingsUseCase
 import org.mtg.screen.standings.StandingsViewModel
@@ -48,10 +50,13 @@ class Modules {
 
     private fun createStandingsAdapter(): ItemListAdapter {
         val factory = itemViewHolderFactory {
-            viewHolder { StandingViewHolder(it) }
+            viewHolder { StandingViewHolder(it, isDarkMode(it.context)) }
         }
         return ItemListAdapter(factory)
     }
+
+    private fun isDarkMode(context: Context) = SharedPreferencesUtil.darkMode(context)
+
 
     private inline fun <reified T> createApi(apiFactory: ApiFactory) = apiFactory.createApi<T>()
 }

@@ -62,4 +62,11 @@ class BottomNavigationHelper(context: Context) {
         }
         return true
     }
+
+    fun backgroundColor() =
+        if (darkModeEnabled) {
+            R.color.standingsDarkBackground
+        } else {
+            R.color.standingsBackground
+        }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -43,8 +44,8 @@ class StandingsFragment : Fragment(), BottomNavigationView.OnNavigationItemSelec
                 is StandingsViewModel.StandingsViewState.Success -> itemsAdapter.submitList(state.items)
                  else -> {}
             }
-
         })
+        view.setBackgroundColor(ContextCompat.getColor(view.context, bottomNavigationHelper.backgroundColor()))
     }
 
     override fun onNavigationItemSelected(item: MenuItem) =

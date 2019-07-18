@@ -9,4 +9,8 @@
     <string name="bottom_navigation_standings">Standings</string>
     <string name="settings_dark_mode_enabled">Dark mode enabled</string>
     <string name="settings_title">Settings</string>
+    <string name="standings_week_one">Week 1</string>
+    <string name="standings_week_two">Week 2</string>
+    <string name="standings_week_three">Week 3</string>
+    <string name="standings_week_four">Week 4</string>
 </resources>
