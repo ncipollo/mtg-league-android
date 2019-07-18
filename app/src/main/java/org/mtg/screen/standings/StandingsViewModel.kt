@@ -24,10 +24,13 @@ class StandingsViewModel(
     fun standings(): LiveData<StandingsViewState> {
         disposeBag.add(
             leagueRepository.leagues().flatMap { leagues ->
-                standingRepository.standingsForLeague(leagues.last().id).map { standings ->
+                standingRepository.standingsForLeague(leagues.last().id).map<StandingsViewState> { standings ->
                     StandingsViewState.Success(standings.map { createStandingItem(it) })
                 }
-            }.subscribe { state -> standingsLiveData.postValue(state) })
+            }
+                .toObservable()
+                .startWith(StandingsViewState.InProgress)
+                .subscribe { state -> standingsLiveData.postValue(state) })
 
         return standingsLiveData
     }

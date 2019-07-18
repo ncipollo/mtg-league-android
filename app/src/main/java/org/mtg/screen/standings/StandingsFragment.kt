@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -39,13 +40,18 @@ class StandingsFragment : Fragment(), BottomNavigationView.OnNavigationItemSelec
         bottom_navigation.setOnNavigationItemSelectedListener(this)
         bottomNavigationHelper.setupBottomNavigationTheme(view.context, bottom_navigation)
         standings_recycler_view.adapter = itemsAdapter
-        viewModel.standings().observe(viewLifecycleOwner, Observer { state->
+        viewModel.standings().observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is StandingsViewModel.StandingsViewState.Success -> itemsAdapter.submitList(state.items)
-                 else -> {}
+                is StandingsViewModel.StandingsViewState.Success -> successState(state)
+                else -> standings_loading.isGone = false
             }
         })
         view.setBackgroundColor(ContextCompat.getColor(view.context, bottomNavigationHelper.backgroundColor()))
+    }
+
+    private fun successState(state: StandingsViewModel.StandingsViewState.Success) {
+        itemsAdapter.submitList(state.items)
+        standings_loading.isGone = true
     }
 
     override fun onNavigationItemSelected(item: MenuItem) =
