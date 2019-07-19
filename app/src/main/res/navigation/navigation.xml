@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_scoreboard"/>
     <fragment
         android:id="@+id/reportFragment"
-        android:name="org.mtg.screen.Report.ReportFragment"
+        android:name="org.mtg.screen.report.ReportFragment"
         android:label="@string/app_name"
         />
     <fragment

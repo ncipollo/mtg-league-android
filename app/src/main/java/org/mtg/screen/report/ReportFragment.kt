@@ -1,4 +1,4 @@
-package org.mtg.screen.Report
+package org.mtg.screen.report
 
 import android.content.Context
 import android.os.Bundle
