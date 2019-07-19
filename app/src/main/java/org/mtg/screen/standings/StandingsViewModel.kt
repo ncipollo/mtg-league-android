@@ -1,39 +1,33 @@
 package org.mtg.screen.standings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
 import org.mtg.arch.ItemViewState
 import org.mtg.model.Standing
 import org.mtg.repository.LeagueRemoteRepository
 import org.mtg.repository.StandingRemoteRepository
+import org.mtg.viewmodel.MagicViewModel
 
 class StandingsViewModel(
     private val standingRepository: StandingRemoteRepository,
     private val leagueRepository: LeagueRemoteRepository
-) : ViewModel() {
-    private val standingsLiveData = MutableLiveData<StandingsViewState>()
-    private val disposeBag = CompositeDisposable()
-
+) : MagicViewModel() {
     sealed class StandingsViewState {
         object InProgress : StandingsViewState()
         data class Success(val items: List<ItemViewState>) : StandingsViewState()
     }
 
-    fun standings(): LiveData<StandingsViewState> {
-        disposeBag.add(
-            leagueRepository.leagues().flatMap { leagues ->
-                standingRepository.standingsForLeague(leagues.last().id).map<StandingsViewState> { standings ->
-                    StandingsViewState.Success(standings.map { createStandingItem(it) })
-                }
+    fun standings() =
+        leagueRepository.leagues()
+            .flatMap { leagues ->
+                standingRepository
+                    .standingsForLeague(leagues.last().id)
+                    .map<StandingsViewState> { standings ->
+                        StandingsViewState.Success(standings.map { createStandingItem(it) })
+                    }
             }
-                .toObservable()
-                .startWith(StandingsViewState.InProgress)
-                .subscribe { state -> standingsLiveData.postValue(state) })
+            .toObservable()
+            .startWith(StandingsViewState.InProgress)
+            .toLiveData()
 
-        return standingsLiveData
-    }
 
     private fun createStandingItem(standing: Standing) =
         StandingViewItem(
@@ -46,8 +40,4 @@ class StandingsViewModel(
             weekThreeRecord = standing.week3Record,
             weekFourRecord = standing.week4Record
         )
-
-    override fun onCleared() {
-        disposeBag.dispose()
-    }
 }

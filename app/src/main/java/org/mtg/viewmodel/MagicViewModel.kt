@@ -12,7 +12,7 @@ abstract class MagicViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
-        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
 
     fun <T : Any> Observable<T>.toLiveData(): LiveData<T> {

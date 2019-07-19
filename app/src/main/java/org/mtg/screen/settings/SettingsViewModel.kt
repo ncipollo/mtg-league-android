@@ -2,11 +2,11 @@ package org.mtg.screen.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import org.mtg.viewmodel.MagicViewModel
 
-class SettingsViewModel(private val settingsUseCase: SettingsUseCase) : ViewModel() {
+class SettingsViewModel(private val settingsUseCase: SettingsUseCase) : MagicViewModel() {
     private val darkModeLiveData = MutableLiveData<Boolean>()
     private val disposeBag = CompositeDisposable()
 
