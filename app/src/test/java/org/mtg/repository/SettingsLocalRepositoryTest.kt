@@ -13,8 +13,6 @@ import org.mtg.rx.TestSchedulers
 
 @RunWith(JUnit4::class)
 class SettingsLocalRepositoryTest {
-
-
     private val settings = mock<Settings>() {
         on { id } doReturn SettingsLocalRepository.ID
         on { darkMode } doReturn true
