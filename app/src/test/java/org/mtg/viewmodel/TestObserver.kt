@@ -1,4 +1,4 @@
-package org.viewmodel
+package org.mtg.viewmodel
 
 import androidx.lifecycle.Observer
 import org.junit.Assert

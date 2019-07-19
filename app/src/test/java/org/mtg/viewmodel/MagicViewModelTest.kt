@@ -1,4 +1,4 @@
-package org.viewmodel
+package org.mtg.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.reactivex.subjects.PublishSubject
@@ -6,7 +6,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mtg.viewmodel.MagicViewModel
 
 @RunWith(JUnit4::class)
 class MagicViewModelTest {

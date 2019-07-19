@@ -52,7 +52,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'androidx.arch.core:core-testing:2.0.1'
-    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+    testImplementation 'org.mockito:mockito-inline:2.25.0'
+    testImplementation dependencies.create('com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0') {
+        exclude group: 'net.bytebuddy'
+    }
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

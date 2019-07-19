@@ -1,4 +1,4 @@
-package org.viewmodel
+package org.mtg.viewmodel
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
