@@ -1,40 +1,58 @@
 package org.mtg.screen.settings
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
+import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.mtg.R
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : Fragment() {
     private companion object {
         private const val DARK_MODE_KEY = "darkMode"
+        private const val PROGRESS_KEY = "progress"
     }
+
     private val viewModel: SettingsViewModel by viewModel()
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.fragment_settings, rootKey)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(false)
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_settings, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val darkModeSwitch: SwitchPreferenceCompat? = findPreference<SwitchPreferenceCompat>(DARK_MODE_KEY)
-        viewModel.darkMode().observe(viewLifecycleOwner, Observer {
-            darkModeSwitch?.isChecked = it
-        })
-        listView.setBackgroundColor(ContextCompat.getColor(view.context, R.color.settings_background))
-
-        darkModeSwitch?.setOnPreferenceClickListener { item ->
-            if ((item as SwitchPreferenceCompat?)?.isChecked == true) {
-                viewModel.saveDarkMode(true)
-            } else {
-                viewModel.saveDarkMode(false)
+        // val progress = findPreference<Preference>(PROGRESS_KEY)
+        viewModel.preferenceState().observe(viewLifecycleOwner, Observer { viewState ->
+            when (viewState) {
+                is SettingsViewModel.SettingsViewState.Success -> {
+                    dark_mode_switch.isChecked = viewState.darkMode
+                    // progress?.isVisible = false
+                }
+                else -> {
+                }//progress?.isVisible = true
             }
-            requireActivity().recreate()
-            true
+        })
+
+        dark_mode_preference.setOnClickListener { handleDarkModeSwitch() }
+        dark_mode_switch.setOnClickListener { handleDarkModeSwitch() }
+    }
+
+    private fun handleDarkModeSwitch() {
+        if (dark_mode_switch.isChecked) {
+            viewModel.saveDarkMode(true)
+        } else {
+            viewModel.saveDarkMode(false)
         }
+        requireActivity().recreate()
     }
 }

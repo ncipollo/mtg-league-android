@@ -1,6 +1,6 @@
 package org.mtg.screen.settings
 
-import io.reactivex.SingleTransformer
+import io.reactivex.ObservableTransformer
 
 class SettingsUseCase {
     sealed class Action {
@@ -11,9 +11,10 @@ class SettingsUseCase {
     sealed class Result {
         object Saved : Result()
         data class Retrieved(val value: Boolean) : Result()
+        object InProgress: Result()
     }
 
-    fun create() = SingleTransformer<Action, Result> { source ->
+    fun create() = ObservableTransformer<Action, Result> { source ->
         source.map { action ->
             when (action) {
                 is Action.Save -> {
@@ -25,6 +26,6 @@ class SettingsUseCase {
                     Result.Retrieved(darkMode)
                 }
             }
-        }
+        }.startWith(Result.InProgress)
     }
 }

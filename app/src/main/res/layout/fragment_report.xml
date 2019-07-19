@@ -63,6 +63,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
         android:hint="@string/report_games_played"
+        app:boxStrokeColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/report_loser_edittext">
 
         <AutoCompleteTextView
