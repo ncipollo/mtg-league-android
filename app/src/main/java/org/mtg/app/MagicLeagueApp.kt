@@ -2,7 +2,9 @@ package org.mtg.app
 
 import android.app.Application
 import android.content.Context
+import org.mtg.BuildConfig
 import org.mtg.di.ApplicationInjector
+import timber.log.Timber
 
 class MagicLeagueApp : Application() {
     init {
@@ -17,5 +19,8 @@ class MagicLeagueApp : Application() {
     override fun onCreate() {
         super.onCreate()
         ApplicationInjector.inject(this)
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }
