@@ -1,0 +1,7 @@
+
+CREATE TABLE settings(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    darkMode INTEGER AS Boolean NOT NULL DEFAULT 0,
+    selectedLeagueId INTEGER NOT NULL DEFAULT 0,
+    selectedLeagueName TEXT NOT NULL DEFAULT ""
+);
