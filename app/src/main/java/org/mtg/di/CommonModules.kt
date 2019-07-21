@@ -10,6 +10,7 @@ import org.mtg.api.*
 import org.mtg.repository.LeagueRemoteRepository
 import org.mtg.repository.SettingsLocalRepository
 import org.mtg.repository.StandingRemoteRepository
+import org.mtg.usecase.CurrentLeagueUseCase
 import org.mtg.util.BottomNavigationHelper
 import org.rx.MagicSchedulers
 import org.rx.ProductionSchedulers
@@ -21,7 +22,8 @@ class CommonModules : Modules {
         database(),
         helpers(),
         repos(),
-        schedulers()
+        schedulers(),
+        useCases()
     )
 
     private fun api() = module {
@@ -47,6 +49,10 @@ class CommonModules : Modules {
         factory { LeagueRemoteRepository(get()) }
         factory { StandingRemoteRepository(get()) }
         factory { SettingsLocalRepository(get(), get()) }
+    }
+
+    private fun useCases() = module {
+        factory { CurrentLeagueUseCase(get(), get()) }
     }
 
     private fun schedulers() = module {

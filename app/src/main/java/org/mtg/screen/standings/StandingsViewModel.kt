@@ -2,13 +2,13 @@ package org.mtg.screen.standings
 
 import org.mtg.arch.ItemViewState
 import org.mtg.model.Standing
-import org.mtg.repository.LeagueRemoteRepository
 import org.mtg.repository.StandingRemoteRepository
+import org.mtg.usecase.CurrentLeagueUseCase
 import org.mtg.viewmodel.MagicViewModel
 
 class StandingsViewModel(
-    private val standingRepository: StandingRemoteRepository,
-    private val leagueRepository: LeagueRemoteRepository
+    private val currentLeagueUseCase: CurrentLeagueUseCase,
+    private val standingRepository: StandingRemoteRepository
 ) : MagicViewModel() {
     sealed class StandingsViewState {
         object InProgress : StandingsViewState()
@@ -16,15 +16,14 @@ class StandingsViewModel(
     }
 
     fun standings() =
-        leagueRepository.leagues()
-            .flatMap { leagues ->
+        currentLeagueUseCase.get()
+            .switchMapSingle { leagueResult ->
                 standingRepository
-                    .standingsForLeague(leagues.last().id)
+                    .standingsForLeague(leagueResult.leagueId)
                     .map<StandingsViewState> { standings ->
                         StandingsViewState.Success(standings.map { createStandingItem(it) })
                     }
             }
-            .toObservable()
             .startWith(StandingsViewState.InProgress)
             .toLiveData()
 
