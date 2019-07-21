@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.mtg.R
+import org.mtg.model.Settings
 
 class SettingsFragment : Fragment() {
     private companion object {
@@ -17,6 +18,8 @@ class SettingsFragment : Fragment() {
     }
 
     private val viewModel: SettingsViewModel by viewModel()
+
+    private var settings = Settings()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +35,10 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // val progress = findPreference<Preference>(PROGRESS_KEY)
-        viewModel.preferenceState().observe(viewLifecycleOwner, Observer { viewState ->
-            when (viewState) {
-                is SettingsViewModel.SettingsViewState.Success -> {
-                    dark_mode_switch.isChecked = viewState.darkMode
-                    // progress?.isVisible = false
-                }
-                else -> {
-                }//progress?.isVisible = true
-            }
+        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+            settings = viewState.settings
+            dark_mode_switch.isChecked = settings.darkMode
+            // progress?.isVisible = viewState.inProgress
         })
 
         dark_mode_preference.setOnClickListener { handleDarkModeSwitch() }
@@ -48,11 +46,12 @@ class SettingsFragment : Fragment() {
     }
 
     private fun handleDarkModeSwitch() {
-        if (dark_mode_switch.isChecked) {
-            viewModel.saveDarkMode(true)
+        val event = if (dark_mode_switch.isChecked) {
+            SettingsViewEvent.Update(settings.copy(darkMode = true))
         } else {
-            viewModel.saveDarkMode(false)
+            SettingsViewEvent.Update(settings.copy(darkMode = false))
         }
+        viewModel.sendViewEvent(event)
         requireActivity().recreate()
     }
 }

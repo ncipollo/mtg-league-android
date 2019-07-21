@@ -3,12 +3,22 @@ package org.mtg.di
 import android.content.Context
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
+import org.mtg.screen.settings.SettingsModules
+import org.mtg.screen.standings.StandingsModules
 
 object ApplicationInjector {
     fun inject(context: Context) {
         startKoin {
             androidContext(context)
-            modules(Modules().modules)
+            modules(modules())
         }
     }
+
+    private fun modules(): List<Module> =
+        listOf(
+            CommonModules(),
+            SettingsModules(),
+            StandingsModules()
+        ).flatMap { it.modules }
 }

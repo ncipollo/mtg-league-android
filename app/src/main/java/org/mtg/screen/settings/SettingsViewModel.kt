@@ -1,46 +1,48 @@
 package org.mtg.screen.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
+import org.mtg.model.Settings
 import org.mtg.viewmodel.MagicViewModel
 
 class SettingsViewModel(private val settingsUseCase: SettingsUseCase) : MagicViewModel() {
-    private val preferencesLiveData = MutableLiveData<SettingsViewState>()
-    private val disposeBag = CompositeDisposable()
+    private val events = PublishSubject.create<SettingsViewEvent>()
 
-    sealed class SettingsViewState {
-        data class Success(val darkMode: Boolean) : SettingsViewState()
-        object InProgress : SettingsViewState()
-        object Error : SettingsViewState()
-    }
+    fun sendViewEvent(event: SettingsViewEvent) = events.onNext(event)
 
-    fun saveDarkMode(value: Boolean) {
-        disposeBag.add(
-            Observable.just(SettingsUseCase.Action.Save(value))
-                .compose(settingsUseCase.create()).subscribe()
-        )
-    }
+    val viewState = createViewState().toLiveData()
 
-    fun preferenceState(): LiveData<SettingsViewState> {
-        disposeBag.add(
-            Observable.just(SettingsUseCase.Action.Fetch)
-                .compose(settingsUseCase.create())
-                .startWith(SettingsUseCase.Result.InProgress)
-                .subscribe { darkMode -> preferencesLiveData.postValue(mapResult(darkMode)) }
-        )
-        return preferencesLiveData
-    }
+    private fun createViewState() =
+        events.startWith(SettingsViewEvent.Fetch)
+            .switchMap { routeEvent(it) }
+            .map { resultToViewState(it) }
 
-    private fun mapResult(result: SettingsUseCase.Result) =
-        when (result) {
-            is SettingsUseCase.Result.Retrieved -> SettingsViewState.Success(result.value)
-            SettingsUseCase.Result.InProgress -> SettingsViewState.InProgress
-            else -> SettingsViewState.Error
+    private fun routeEvent(event: SettingsViewEvent) =
+        when (event) {
+            SettingsViewEvent.Fetch -> fetch()
+            is SettingsViewEvent.Update -> update(event.settings)
         }
 
-    override fun onCleared() {
-        disposeBag.dispose()
-    }
+    private fun fetch() =
+        Observable.just(SettingsUseCase.Action.Fetch)
+            .compose(settingsUseCase.create())
+
+    private fun update(settings: Settings) =
+        Observable.just(SettingsUseCase.Action.Save(settings))
+            .compose(settingsUseCase.create())
+            .switchMap { fetch() }
+
+    private fun resultToViewState(result: SettingsUseCase.Result) =
+        when (result) {
+            SettingsUseCase.Result.Saved -> throw IllegalStateException("Saved result should have been mapped to fetch")
+            is SettingsUseCase.Result.Retrieved -> SettingsViewState(settings = result.settings, inProgress = false)
+            SettingsUseCase.Result.InProgress -> SettingsViewState(inProgress = true)
+        }
 }
+
+sealed class SettingsViewEvent {
+    object Fetch : SettingsViewEvent()
+    data class Update(val settings: Settings) : SettingsViewEvent()
+}
+
+data class SettingsViewState(val settings: Settings = Settings(), val inProgress: Boolean = false)

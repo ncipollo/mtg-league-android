@@ -6,8 +6,11 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mtg.R
+import org.mtg.repository.SettingsLocalRepository
 
-class BottomNavigationHelper(private val darkModeEnabled: Boolean) {
+class BottomNavigationHelper(settingsLocalRepository: SettingsLocalRepository) {
+
+    private val darkModeEnabled = settingsLocalRepository.darkMode()
 
     fun setupBottomNavigationTheme(context: Context, view: BottomNavigationView) {
         view.itemIconTintList =
@@ -28,7 +31,7 @@ class BottomNavigationHelper(private val darkModeEnabled: Boolean) {
         } else {
             R.color.navigation_icon_background_light
         }
-    
+
     fun themeId() =
         if (darkModeEnabled) {
             R.style.AppThemeDark

@@ -1,4 +1,4 @@
-CREATE TABLE settings(
+CREATE TABLE settingsEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     darkMode INTEGER AS Boolean NOT NULL DEFAULT 0,
     selectedLeagueId INTEGER NOT NULL DEFAULT 0,
@@ -6,11 +6,11 @@ CREATE TABLE settings(
 );
 
 insert:
-INSERT INTO settings(id, darkMode, selectedLeagueId, selectedLeagueName)
+INSERT INTO settingsEntity(id, darkMode, selectedLeagueId, selectedLeagueName)
 VALUES(?,?,?,?);
 
 delete:
-DELETE FROM settings WHERE id = :settings_id;
+DELETE FROM settingsEntity WHERE id = :settings_id;
 
 get:
-SELECT * FROM settings WHERE id = :settings_id;
+SELECT * FROM settingsEntity WHERE id = :settings_id;

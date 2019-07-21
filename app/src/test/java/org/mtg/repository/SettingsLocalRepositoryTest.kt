@@ -3,26 +3,34 @@ package org.mtg.repository
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import com.squareup.sqldelight.Query
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mtg.data.Settings
-import org.mtg.data.SettingsQueries
+import org.mtg.entity.SettingsEntity
+import org.mtg.entity.SettingsQueries
+import org.mtg.model.Settings
 import org.mtg.rx.TestSchedulers
 
 @RunWith(JUnit4::class)
 class SettingsLocalRepositoryTest {
-    private val settings = mock<Settings>() {
-        on { id } doReturn SettingsLocalRepository.ID
-        on { darkMode } doReturn true
-        on { selectedLeagueId } doReturn 123
-        on { selectedLeagueName } doReturn "M20"
+    private companion object {
+        val SETTINGS = Settings(
+            darkMode = true,
+            selectedLeagueId = 123,
+            selectedLeagueName = "M20"
+        )
     }
 
-    private val query = mock<Query<Settings>> {
-        on { executeAsList() } doReturn listOf(settings)
+    private val entity = mock<SettingsEntity>() {
+        on { id } doReturn SettingsLocalRepository.ID
+        on { darkMode } doReturn SETTINGS.darkMode
+        on { selectedLeagueId } doReturn SETTINGS.selectedLeagueId
+        on { selectedLeagueName } doReturn SETTINGS.selectedLeagueName
     }
+
+    private val query = mock<Query<SettingsEntity>>()
     private val queries = mock<SettingsQueries> {
         on { get(SettingsLocalRepository.ID) } doReturn query
     }
@@ -31,22 +39,42 @@ class SettingsLocalRepositoryTest {
 
 
     @Test
-    fun get() {
+    fun get_empty() {
+        prepareEmptyQuery()
         val observer = repo.get().test()
-        observer.assertValue(listOf(settings))
+
+        observer.assertValue(Settings())
+    }
+
+    @Test
+    fun get_settingsEntity() {
+        prepareSettingsQuery()
+        val observer = repo.get().test()
+
+        observer.assertValue(SETTINGS)
     }
 
     @Test
     fun update() {
-        val observer = repo.update(settings).test()
+        val observer = repo.update(SETTINGS).test()
 
         observer.assertComplete()
         verify(queries).delete(SettingsLocalRepository.ID)
         verify(queries).insert(
-            id = settings.id,
-            darkMode = settings.darkMode,
-            selectedLeagueId = settings.selectedLeagueId,
-            selectedLeagueName = settings.selectedLeagueName
+            id = SettingsLocalRepository.ID,
+            darkMode = SETTINGS.darkMode,
+            selectedLeagueId = SETTINGS.selectedLeagueId,
+            selectedLeagueName = SETTINGS.selectedLeagueName
         )
+    }
+
+    private fun prepareEmptyQuery() {
+        whenever(query.executeAsOneOrNull()) doReturn null
+        whenever(query.executeAsList()) doReturn emptyList()
+    }
+
+    private fun prepareSettingsQuery() {
+        whenever(query.executeAsOneOrNull()) doReturn entity
+        whenever(query.executeAsList()) doReturn listOf(entity)
     }
 }
