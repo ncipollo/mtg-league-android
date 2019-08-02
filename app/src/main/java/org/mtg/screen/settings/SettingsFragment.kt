@@ -47,9 +47,9 @@ class SettingsFragment : Fragment() {
 
     private fun handleDarkModeSwitch() {
         val event = if (dark_mode_switch.isChecked) {
-            SettingsViewEvent.Update(settings.copy(darkMode = true, selectedLeagueName = "War", selectedLeagueId = 7))
+            SettingsViewEvent.Update(settings.copy(darkMode = true))
         } else {
-            SettingsViewEvent.Update(settings.copy(darkMode = false, selectedLeagueName = "War", selectedLeagueId = 7))
+            SettingsViewEvent.Update(settings.copy(darkMode = false))
         }
         viewModel.sendViewEvent(event)
         requireActivity().recreate()
