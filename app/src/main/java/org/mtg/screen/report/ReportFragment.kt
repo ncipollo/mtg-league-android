@@ -21,7 +21,7 @@ import org.mtg.util.KeyboardHelper
 
 class ReportFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
     private companion object {
-        const val AUTO_COMPLETE_LAYOUT = android.R.layout.simple_dropdown_item_1line
+        const val AUTO_COMPLETE_LAYOUT = android.R.layout.simple_spinner_dropdown_item
 
         val PRESET_NUMBER_OF_GAMES = listOf("3", "2")
     }
