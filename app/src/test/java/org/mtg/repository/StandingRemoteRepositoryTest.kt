@@ -4,10 +4,13 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.subjects.PublishSubject
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mtg.api.StandingApi
 import org.mtg.model.Standing
 import java.io.IOException
 
+@RunWith(JUnit4::class)
 class StandingRemoteRepositoryTest {
     private companion object {
         const val LEAGUE_ID = 1L

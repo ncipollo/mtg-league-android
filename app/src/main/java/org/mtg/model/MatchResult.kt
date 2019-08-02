@@ -8,6 +8,7 @@ data class MatchResult(
     val loserId: Long = 0,
     val gamesCount: Long = 0,
     val leagueId: Long = 0,
-    val createdAt: Date = Date(),
-    val updatedAt: Date = Date()
+    val createdAt: Date? = null,
+    val updatedAt: Date? = null,
+    val userId: Long? = null
 )

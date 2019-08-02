@@ -15,15 +15,13 @@ abstract class MagicViewModel : ViewModel() {
         compositeDisposable.dispose()
     }
 
-    fun <T : Any> Observable<T>.toLiveData(): LiveData<T> {
-        val liveData = MutableLiveData<T>()
-        subscribe { liveData.postValue(it) }.also { compositeDisposable.add(it) }
-        return liveData
-    }
+    fun <T : Any> Observable<T>.toLiveData() = RxLiveData(this, compositeDisposable)
 
     fun <T : Any> Single<T>.toLiveData(): LiveData<T> {
         val liveData = MutableLiveData<T>()
         subscribeBy { liveData.postValue(it) }.also { compositeDisposable.add(it) }
         return liveData
     }
+
+    fun <T : Any> Observable<T>.toSingleLiveEvent(): RxSingleLiveEvent<T> = RxSingleLiveEvent(this, compositeDisposable)
 }

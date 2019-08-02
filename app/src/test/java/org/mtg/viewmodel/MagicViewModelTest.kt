@@ -17,8 +17,17 @@ class MagicViewModelTest {
     private val viewModel = TestViewModel()
 
     @Test
-    fun onCleared() {
+    fun onCleared_withLiveData() {
         viewModel.observableLiveData.observe(lifecycleOwner, observer)
+        viewModel.onCleared()
+        viewModel.subject.onNext(2)
+        viewModel.subject.onNext(3)
+        observer.assertValues()
+    }
+
+    @Test
+    fun onCleared_withSingleLiveEvent() {
+        viewModel.observableSingleLiveEvent.observe(lifecycleOwner, observer)
         viewModel.onCleared()
         viewModel.subject.onNext(2)
         viewModel.subject.onNext(3)
@@ -34,16 +43,17 @@ class MagicViewModelTest {
     }
 
     @Test
-    fun single_toLiveData() {
-        viewModel.singleLiveData.observe(lifecycleOwner, observer)
+    fun observer_toSingleLiveEvent() {
+        viewModel.observableSingleLiveEvent.observe(lifecycleOwner, observer)
         viewModel.subject.onNext(2)
-        observer.assertValues(2)
+        viewModel.subject.onNext(3)
+        observer.assertValues(2, 3)
     }
 
     private class TestViewModel : MagicViewModel() {
         val subject = PublishSubject.create<Int>()
         val observableLiveData = subject.toLiveData()
-        val singleLiveData = subject.firstOrError().toLiveData()
+        val observableSingleLiveEvent = subject.toSingleLiveEvent()
 
         public override fun onCleared() {
             super.onCleared()

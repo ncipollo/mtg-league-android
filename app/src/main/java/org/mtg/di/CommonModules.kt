@@ -7,9 +7,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.mtg.Database
 import org.mtg.api.*
-import org.mtg.repository.LeagueRemoteRepository
-import org.mtg.repository.SettingsLocalRepository
-import org.mtg.repository.StandingRemoteRepository
+import org.mtg.repository.*
 import org.mtg.usecase.CurrentLeagueUseCase
 import org.mtg.util.BottomNavigationHelper
 import org.rx.MagicSchedulers
@@ -47,8 +45,10 @@ class CommonModules : Modules {
 
     private fun repos() = module {
         factory { LeagueRemoteRepository(get()) }
+        factory { MatchRemoteRepository(get()) }
         factory { StandingRemoteRepository(get()) }
         factory { SettingsLocalRepository(get(), get()) }
+        factory { UserRemoteRepository(get()) }
     }
 
     private fun useCases() = module {
