@@ -22,7 +22,7 @@ class CurrentLeagueUseCase(
             Single.just(Result(leagueId = id, leagueName = name))
         } else {
             leagueRepo.leagues()
-                .map { resultFromLeague(it.firstOrNull() ?: League()) }
+                .map { resultFromLeague(it.lastOrNull() ?: League()) }
         }
     }
 

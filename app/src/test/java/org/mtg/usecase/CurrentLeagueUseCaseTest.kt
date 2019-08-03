@@ -16,7 +16,8 @@ class CurrentLeagueUseCaseTest {
     private companion object {
         val SETTINGS_WITH_LEAGUE = Settings(selectedLeagueId = 1, selectedLeagueName = "M20")
         val SETTINGS_WITHOUT_LEAGUE = Settings()
-        val LEAGUE = League(id = 2, name = "War of the Spark")
+        val LEAGUE1 = League(id = 2, name = "War of the Spark")
+        val LEAGUE2 = League(id = 3, name = "M20")
     }
 
     private val leagueSubject = PublishSubject.create<List<League>>()
@@ -40,8 +41,8 @@ class CurrentLeagueUseCaseTest {
 
         observer.assertValues(
             CurrentLeagueUseCase.Result(
-                leagueId = LEAGUE.id,
-                leagueName = LEAGUE.name
+                leagueId = LEAGUE2.id,
+                leagueName = LEAGUE2.name
             )
         )
     }
@@ -79,7 +80,7 @@ class CurrentLeagueUseCaseTest {
 
     private fun respondWithRemoteError() = leagueSubject.onNext(emptyList())
 
-    private fun respondWithRemoteLeague() = leagueSubject.onNext(listOf(LEAGUE))
+    private fun respondWithRemoteLeague() = leagueSubject.onNext(listOf(LEAGUE1, LEAGUE2))
 
     private fun respondWithSavedLeague() = settingsSubject.onNext(SETTINGS_WITH_LEAGUE)
 }
