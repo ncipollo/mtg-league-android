@@ -7,7 +7,7 @@ import io.reactivex.rxkotlin.ofType
 import io.reactivex.subjects.PublishSubject
 import org.mtg.model.MatchResult
 import org.mtg.model.User
-import org.mtg.usecase.CurrentLeagueUseCase
+import org.mtg.domain.CurrentLeagueUseCase
 import org.mtg.viewmodel.MagicViewModel
 
 

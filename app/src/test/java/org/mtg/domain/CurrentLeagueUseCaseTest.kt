@@ -1,11 +1,14 @@
-package org.mtg.usecase
+package org.mtg.domain
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mtg.flow.sendSingle
+import org.mtg.flow.testChannel
 import org.mtg.model.League
 import org.mtg.model.Settings
 import org.mtg.repository.LeagueRemoteRepository
@@ -20,12 +23,10 @@ class CurrentLeagueUseCaseTest {
         val LEAGUE2 = League(id = 3, name = "M20")
     }
 
-    private val leagueSubject = PublishSubject.create<List<League>>()
     private val settingsSubject = PublishSubject.create<Settings>()
 
-    private val leagueRepo = mock<LeagueRemoteRepository> {
-        on { leagues() } doReturn leagueSubject.firstOrError()
-    }
+    private val leagueRepo = mock<LeagueRemoteRepository>()
+    private val leagueChannel = leagueRepo.leagues().testChannel()
     private val settingsRepo = mock<SettingsLocalRepository> {
         on { get() } doReturn settingsSubject
     }
@@ -33,7 +34,7 @@ class CurrentLeagueUseCaseTest {
     private val useCase = CurrentLeagueUseCase(leagueRepo = leagueRepo, settingsRepo = settingsRepo)
 
     @Test
-    fun get_fromApi() {
+    fun get_fromApi() = runBlockingTest {
         val observer = useCase.get().test()
 
         respondWithEmptySettings()
@@ -48,7 +49,7 @@ class CurrentLeagueUseCaseTest {
     }
 
     @Test
-    fun get_fromNowhere() {
+    fun get_fromNowhere() = runBlockingTest {
         val observer = useCase.get().test()
 
         respondWithEmptySettings()
@@ -78,9 +79,10 @@ class CurrentLeagueUseCaseTest {
 
     private fun respondWithEmptySettings() = settingsSubject.onNext(SETTINGS_WITHOUT_LEAGUE)
 
-    private fun respondWithRemoteError() = leagueSubject.onNext(emptyList())
+    private suspend fun respondWithRemoteError() = leagueChannel.sendSingle(emptyList())
 
-    private fun respondWithRemoteLeague() = leagueSubject.onNext(listOf(LEAGUE1, LEAGUE2))
+    private suspend fun respondWithRemoteLeague() =
+        leagueChannel.sendSingle(listOf(LEAGUE1, LEAGUE2))
 
     private fun respondWithSavedLeague() = settingsSubject.onNext(SETTINGS_WITH_LEAGUE)
 }

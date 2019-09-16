@@ -1,12 +1,14 @@
 package org.mtg.repository
 
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mtg.api.StandingApi
+import org.mtg.flow.sendSingle
+import org.mtg.flow.testChannel
+import org.mtg.flow.testCollect
 import org.mtg.model.Standing
 import java.io.IOException
 
@@ -27,28 +29,26 @@ class StandingRemoteRepositoryTest {
         )
     }
 
-    private val standingSubject = PublishSubject.create<List<Standing>>()
+    private val api = mock<StandingApi>()
+    private val standingChannel = api.standingsForLeague(LEAGUE_ID).testChannel()
 
-    private val api = mock<StandingApi> {
-        on { standingsForLeague(LEAGUE_ID) } doReturn standingSubject.firstOrError()
-    }
     private val repo = StandingRemoteRepository(api)
 
     @Test
-    fun standing_error() {
-        val observer = repo.standingsForLeague(LEAGUE_ID).test()
+    fun standing_error() = runBlockingTest {
+        val collector = repo.standingsForLeague(LEAGUE_ID).testCollect(this)
         respondWithStandingError()
-        observer.assertValue(emptyList())
+        collector.assertValues(emptyList()).assertNoError()
     }
 
     @Test
-    fun standing_success() {
-        val observer = repo.standingsForLeague(LEAGUE_ID).test()
+    fun standing_success() = runBlockingTest {
+        val collector = repo.standingsForLeague(LEAGUE_ID).testCollect(this)
         respondWithStandings()
-        observer.assertValue(listOf(STANDING))
+        collector.assertValues(listOf(STANDING)).assertNoError()
     }
 
-    private fun respondWithStandings() = standingSubject.onNext(listOf(STANDING))
+    private suspend fun respondWithStandings() = standingChannel.sendSingle(listOf(STANDING))
 
-    private fun respondWithStandingError() = standingSubject.onError(ERROR)
+    private fun respondWithStandingError() = standingChannel.close(ERROR)
 }

@@ -15,6 +15,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Click">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="Item">
+        <item name="android:background">?colorSurface</item>
+    </style>
+
     <style name="ScoreboardText">
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
@@ -31,4 +40,15 @@
     <style name="ReportText">
         <item name="android:padding">8dp</item>
     </style>
+
+    <style name="H1">
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:background">?colorOnSurface</item>
+        <item name="android:alpha">.20</item>
+    </style>
+
 </resources>

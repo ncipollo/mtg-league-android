@@ -8,6 +8,8 @@
     <string name="bottom_navigation_report">Report</string>
     <string name="bottom_navigation_standings">Standings</string>
 
+    <string name="leagues_title">Leagues</string>
+
     <string name="report_title">Report Match</string>
     <string name="report_winner">Winner</string>
     <string name="report_loser">Loser</string>

@@ -9,7 +9,10 @@ import org.mtg.entity.SettingsQueries
 import org.mtg.model.Settings
 import org.rx.MagicSchedulers
 
-class SettingsLocalRepository(private val settingsQueries: SettingsQueries, private val schedulers: MagicSchedulers) {
+class SettingsLocalRepository(
+    private val settingsQueries: SettingsQueries,
+    private val schedulers: MagicSchedulers
+) {
     companion object {
         const val ID = 1L
     }
@@ -20,9 +23,7 @@ class SettingsLocalRepository(private val settingsQueries: SettingsQueries, priv
         settingsQueries.get(ID)
             .asObservable(schedulers.io)
             .mapToList()
-            .map {
-                settingsFromEntities(it)
-            }
+            .map { settingsFromEntities(it) }
 
     private fun settingsFromEntities(entities: List<SettingsEntity>) =
         entities.firstOrNull()

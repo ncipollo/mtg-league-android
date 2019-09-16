@@ -8,7 +8,7 @@ import org.koin.dsl.module
 import org.mtg.Database
 import org.mtg.api.*
 import org.mtg.repository.*
-import org.mtg.usecase.CurrentLeagueUseCase
+import org.mtg.domain.CurrentLeagueUseCase
 import org.mtg.util.BottomNavigationHelper
 import org.rx.MagicSchedulers
 import org.rx.ProductionSchedulers

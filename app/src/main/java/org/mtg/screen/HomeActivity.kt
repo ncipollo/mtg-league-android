@@ -38,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.settings_menu -> {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
+                findNavController(R.id.nav_host_fragment).navigate(R.id.leaguesFragment)
                 true
             }
             android.R.id.home -> {

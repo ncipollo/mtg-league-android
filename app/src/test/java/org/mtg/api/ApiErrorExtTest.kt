@@ -3,10 +3,15 @@ package org.mtg.api
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.ResponseBody
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mtg.flow.testCollect
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -16,7 +21,8 @@ class ApiErrorExtTest {
     private companion object {
         const val RECOVERY_VALUE = "recover"
 
-        val HTTP_EXCEPTION = HttpException(Response.error<String>(404, ResponseBody.create(null, "")))
+        val HTTP_EXCEPTION =
+            HttpException(Response.error<String>(404, ResponseBody.create(null, "")))
         val IO_EXCEPTION = IOException()
         val RUN_TIME_EXCEPTION = RuntimeException()
     }
@@ -43,6 +49,42 @@ class ApiErrorExtTest {
             .onApiErrorComplete()
             .test()
         observer.assertError(RUN_TIME_EXCEPTION)
+    }
+
+    @Test
+    fun flow_onApiErrorReturn_consumesHttpError() = runBlockingTest {
+        val channel = BroadcastChannel<String>(Channel.BUFFERED)
+
+        val collector = channel.asFlow()
+            .onApiErrorReturn { RECOVERY_VALUE }
+            .testCollect(this)
+        channel.close(HTTP_EXCEPTION)
+
+        collector.assertValues(RECOVERY_VALUE).assertNoError()
+    }
+
+    @Test
+    fun flow_onApiErrorReturn_consumesIoError() = runBlockingTest {
+        val channel = BroadcastChannel<String>(Channel.BUFFERED)
+
+        val collector = channel.asFlow()
+            .onApiErrorReturn { RECOVERY_VALUE }
+            .testCollect(this)
+        channel.close(IO_EXCEPTION)
+
+        collector.assertValues(RECOVERY_VALUE).assertNoError()
+    }
+
+    @Test
+    fun flow_onApiErrorReturn_throwsOtherErrors() = runBlockingTest {
+        val channel = BroadcastChannel<String>(Channel.BUFFERED)
+
+        val collector = channel.asFlow()
+            .onApiErrorReturn { RECOVERY_VALUE }
+            .testCollect(this)
+        channel.close(RUN_TIME_EXCEPTION)
+
+        collector.assertError(RUN_TIME_EXCEPTION).assertNoValues()
     }
 
     @Test

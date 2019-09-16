@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mtg.model.User
-import org.mtg.usecase.CurrentLeagueUseCase
+import org.mtg.domain.CurrentLeagueUseCase
 import org.mtg.viewmodel.TestLifeCycleOwner
 import org.mtg.viewmodel.TestObserver
 import java.io.IOException

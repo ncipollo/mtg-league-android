@@ -27,6 +27,7 @@ class ApiFactory(private val context: Context) {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(createGson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .addCallAdapterFactory(FlowCallAdapterFactory.create())
             .baseUrl(BASE_URL)
             .client(createOkhttp())
             .build()

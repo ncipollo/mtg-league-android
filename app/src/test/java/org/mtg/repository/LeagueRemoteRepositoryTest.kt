@@ -1,14 +1,19 @@
 package org.mtg.repository
 
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mtg.api.LeagueApi
+import org.mtg.flow.sendSingle
+import org.mtg.flow.testChannel
+import org.mtg.flow.testCollect
 import org.mtg.model.League
 import org.mtg.model.MatchResult
 import java.io.IOException
 
+@RunWith(JUnit4::class)
 class LeagueRemoteRepositoryTest {
     private companion object {
         const val LEAGUE_ID = 1L
@@ -18,48 +23,44 @@ class LeagueRemoteRepositoryTest {
         val MATCH_RESULT = MatchResult(gamesCount = 3)
     }
 
-    private val leagueSubject = PublishSubject.create<List<League>>()
-    private val matchSubject = PublishSubject.create<List<MatchResult>>()
-
-    private val api = mock<LeagueApi> {
-        on { leagues() } doReturn leagueSubject.firstOrError()
-        on { matchResultsForLeague(LEAGUE_ID) } doReturn matchSubject.firstOrError()
-    }
+    private val api = mock<LeagueApi>()
+    private val leagueChannel = api.leagues().testChannel()
+    private val matchChannel = api.matchResultsForLeague(LEAGUE_ID).testChannel()
     private val repo = LeagueRemoteRepository(api)
 
     @Test
-    fun leagues_error() {
-        val observer = repo.leagues().test()
+    fun leagues_error() = runBlockingTest {
+        val collector = repo.leagues().testCollect(this)
         respondWithLeagueError()
-        observer.assertValue(emptyList())
+        collector.assertValues(emptyList()).assertNoError()
     }
 
     @Test
-    fun leagues_success() {
-        val observer = repo.leagues().test()
+    fun leagues_success() = runBlockingTest {
+        val collector = repo.leagues().testCollect(this)
         respondWithLeagues()
-        observer.assertValue(listOf(LEAGUE))
+        collector.assertValues(listOf(LEAGUE)).assertNoError()
     }
 
     @Test
-    fun matchResultsForLeague_error() {
-        val observer = repo.matchResultsForLeague(LEAGUE_ID).test()
+    fun matchResultsForLeague_error() = runBlockingTest {
+        val collector = repo.matchResultsForLeague(LEAGUE_ID).testCollect(this)
         respondWithMatchResultError()
-        observer.assertValue(emptyList())
+        collector.assertValues(emptyList()).assertNoError()
     }
 
     @Test
-    fun matchResultsForLeague_success() {
-        val observer = repo.matchResultsForLeague(LEAGUE_ID).test()
+    fun matchResultsForLeague_success() = runBlockingTest {
+        val collector = repo.matchResultsForLeague(LEAGUE_ID).testCollect(this)
         respondWithMatchResults()
-        observer.assertValue(listOf(MATCH_RESULT))
+        collector.assertValues(listOf(MATCH_RESULT)).assertNoError()
     }
 
-    private fun respondWithLeagues() = leagueSubject.onNext(listOf(LEAGUE))
+    private suspend fun respondWithLeagues() = leagueChannel.sendSingle(listOf(LEAGUE))
 
-    private fun respondWithLeagueError() = leagueSubject.onError(ERROR)
+    private fun respondWithLeagueError() = leagueChannel.close(ERROR)
 
-    private fun respondWithMatchResults() = matchSubject.onNext(listOf(MATCH_RESULT))
+    private suspend fun respondWithMatchResults() = matchChannel.sendSingle(listOf(MATCH_RESULT))
 
-    private fun respondWithMatchResultError() = matchSubject.onError(ERROR)
+    private fun respondWithMatchResultError() = matchChannel.close(ERROR)
 }

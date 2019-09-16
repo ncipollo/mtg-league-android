@@ -6,13 +6,18 @@ import org.koin.dsl.module
 import org.mtg.arch.ItemListAdapter
 import org.mtg.arch.itemViewHolderFactory
 import org.mtg.di.Modules
+import org.mtg.di.dependencyName
 import org.mtg.repository.SettingsLocalRepository
 
 class StandingsModules: Modules {
+    companion object {
+        val ADAPTER = dependencyName<StandingsModules>("adapter")
+    }
+
     override val modules: List<Module> = listOf(standingsScreen())
 
     private fun standingsScreen() = module {
-        factory { createStandingsAdapter(get()) }
+        factory(ADAPTER) { createStandingsAdapter(get()) }
         viewModel { StandingsViewModel(get(), get()) }
     }
 

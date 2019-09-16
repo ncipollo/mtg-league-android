@@ -28,7 +28,7 @@ class StandingsFragment : Fragment(), BottomNavigationView.OnNavigationItemSelec
     ): View? = inflater.inflate(R.layout.fragment_standings, container, false)
 
     private val bottomNavigationHelper: BottomNavigationHelper by inject()
-    private val itemsAdapter: ItemListAdapter by inject()
+    private val itemsAdapter: ItemListAdapter by inject(StandingsModules.ADAPTER)
     private val viewModel: StandingsViewModel by viewModel()
 
 

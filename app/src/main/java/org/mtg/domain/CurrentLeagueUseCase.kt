@@ -1,6 +1,7 @@
-package org.mtg.usecase
+package org.mtg.domain
 
 import io.reactivex.Single
+import kotlinx.coroutines.rx2.asObservable
 import org.mtg.model.League
 import org.mtg.model.Settings
 import org.mtg.repository.LeagueRemoteRepository
@@ -22,7 +23,9 @@ class CurrentLeagueUseCase(
             Single.just(Result(leagueId = id, leagueName = name))
         } else {
             leagueRepo.leagues()
+                .asObservable()
                 .map { resultFromLeague(it.lastOrNull() ?: League()) }
+                .firstOrError()
         }
     }
 

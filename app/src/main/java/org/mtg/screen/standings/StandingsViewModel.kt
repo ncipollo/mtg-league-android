@@ -1,9 +1,11 @@
 package org.mtg.screen.standings
 
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import org.mtg.arch.ItemViewState
+import org.mtg.domain.CurrentLeagueUseCase
 import org.mtg.model.Standing
 import org.mtg.repository.StandingRemoteRepository
-import org.mtg.usecase.CurrentLeagueUseCase
 import org.mtg.viewmodel.MagicViewModel
 
 class StandingsViewModel(
@@ -17,12 +19,14 @@ class StandingsViewModel(
 
     fun standings() =
         currentLeagueUseCase.get()
-            .switchMapSingle { leagueResult ->
+            .switchMap<StandingsViewState> { leagueResult ->
                 standingRepository
                     .standingsForLeague(leagueResult.leagueId)
-                    .map<StandingsViewState> { standings ->
+                    .map { standings ->
                         StandingsViewState.Success(standings.map { createStandingItem(it) })
                     }
+                    .asObservable()
+
             }
             .startWith(StandingsViewState.InProgress)
             .toLiveData()

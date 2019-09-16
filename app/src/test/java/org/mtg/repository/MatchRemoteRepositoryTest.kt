@@ -4,12 +4,14 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.subjects.CompletableSubject
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mtg.api.MatchResultApi
 import org.mtg.model.MatchResult
 import java.io.IOException
 
+@RunWith(JUnit4::class)
 class MatchRemoteRepositoryTest {
-
     private companion object {
         val ERROR = IOException()
         val MATCH_RESULT = MatchResult(
