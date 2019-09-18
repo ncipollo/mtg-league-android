@@ -2,6 +2,7 @@ package org.mtg.screen.leagues
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
@@ -28,11 +29,25 @@ class LeaguesFragment : Fragment() {
     }
     private val viewModel: LeaguesViewModel by viewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_leagues, container, false)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            android.R.id.home -> {
+                findNavController().popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
