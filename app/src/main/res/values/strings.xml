@@ -25,4 +25,6 @@
     <string name="standings_week_two">Week 2</string>
     <string name="standings_week_three">Week 3</string>
     <string name="standings_week_four">Week 4</string>
+
+    <string name="toolbar_title_format">Magic League - %s</string>
 </resources>
