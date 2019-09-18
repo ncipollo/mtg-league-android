@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -15,11 +14,12 @@ import kotlinx.android.synthetic.main.fragment_report.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.mtg.R
+import org.mtg.screen.HomeFragment
 import org.mtg.util.BottomNavigationHelper
 import org.mtg.util.KeyboardHelper
 
 
-class ReportFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class ReportFragment : HomeFragment(), BottomNavigationView.OnNavigationItemSelectedListener {
     private companion object {
         const val AUTO_COMPLETE_LAYOUT = android.R.layout.simple_spinner_dropdown_item
 

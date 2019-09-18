@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,9 +16,10 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.mtg.R
 import org.mtg.arch.ItemListAdapter
+import org.mtg.screen.HomeFragment
 import org.mtg.util.BottomNavigationHelper
 
-class StandingsFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class StandingsFragment : HomeFragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.bottom_navigation.*
 import org.koin.android.ext.android.inject
 import org.mtg.R
+import org.mtg.screen.HomeFragment
 import org.mtg.util.BottomNavigationHelper
 
-class ScoreboardFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class ScoreboardFragment : HomeFragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
