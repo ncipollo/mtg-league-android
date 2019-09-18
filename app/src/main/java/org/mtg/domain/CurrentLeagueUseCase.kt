@@ -8,13 +8,21 @@ import org.mtg.repository.LeagueRemoteRepository
 import org.mtg.repository.SettingsLocalRepository
 
 class CurrentLeagueUseCase(
-    private val leagueRepo: LeagueRemoteRepository,
-    private val settingsRepo: SettingsLocalRepository
+    leagueRepo: LeagueRemoteRepository,
+    settingsRepo: SettingsLocalRepository
 ) {
 
     data class Result(val leagueId: Long, val leagueName: String)
 
-    fun get() = settingsRepo.get().switchMapSingle { fetchIfNeeded(it) }
+    private val results = settingsRepo.get().switchMapSingle { fetchIfNeeded(it) }
+    private val remoteLeague =
+        leagueRepo.leagues()
+            .asObservable()
+            .map { resultFromLeague(it.lastOrNull() ?: League()) }
+            .firstOrError()
+            .cache()
+
+    fun get() = results
 
     private fun fetchIfNeeded(settings: Settings): Single<Result> {
         val id = settings.selectedLeagueId
@@ -22,10 +30,7 @@ class CurrentLeagueUseCase(
         return if (validLeague(id)) {
             Single.just(Result(leagueId = id, leagueName = name))
         } else {
-            leagueRepo.leagues()
-                .asObservable()
-                .map { resultFromLeague(it.lastOrNull() ?: League()) }
-                .firstOrError()
+            remoteLeague
         }
     }
 

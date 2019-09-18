@@ -49,6 +49,23 @@ class CurrentLeagueUseCaseTest {
     }
 
     @Test
+    fun get_fromApi_cached() = runBlockingTest {
+        useCase.get().test()
+
+        respondWithEmptySettings()
+        respondWithRemoteLeague()
+        val observer = useCase.get().test()
+        respondWithEmptySettings()
+
+        observer.assertValues(
+            CurrentLeagueUseCase.Result(
+                leagueId = LEAGUE2.id,
+                leagueName = LEAGUE2.name
+            )
+        )
+    }
+
+    @Test
     fun get_fromNowhere() = runBlockingTest {
         val observer = useCase.get().test()
 

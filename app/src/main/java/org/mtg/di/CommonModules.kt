@@ -7,8 +7,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.mtg.Database
 import org.mtg.api.*
-import org.mtg.repository.*
 import org.mtg.domain.CurrentLeagueUseCase
+import org.mtg.repository.*
 import org.mtg.util.BottomNavigationHelper
 import org.rx.MagicSchedulers
 import org.rx.ProductionSchedulers
@@ -52,7 +52,7 @@ class CommonModules : Modules {
     }
 
     private fun useCases() = module {
-        factory { CurrentLeagueUseCase(get(), get()) }
+        single { CurrentLeagueUseCase(get(), get()) }
     }
 
     private fun schedulers() = module {
