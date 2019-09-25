@@ -21,8 +21,4 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/bottom_navigation"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <include
-        android:id="@+id/bottom_navigation"
-        layout="@layout/bottom_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

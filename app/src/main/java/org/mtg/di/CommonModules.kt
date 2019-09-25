@@ -40,7 +40,7 @@ class CommonModules : Modules {
     }
 
     private fun helpers() = module {
-        factory { BottomNavigationHelper(get()) }
+        factory { BottomNavigationHelper() }
     }
 
     private fun repos() = module {

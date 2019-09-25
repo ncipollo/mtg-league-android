@@ -16,6 +16,9 @@
     <string name="report_submit">Submit</string>
     <string name="report_games_played">Games played</string>
 
+    <string name="score_decrement">-</string>
+    <string name="score_increment">+</string>
+
     <string name="settings_dark_mode_enabled">Dark mode enabled</string>
     <string name="settings_league_selection">League Selection</string>
     <string name="settings_league_selection_summary">Pick which league you would like to report </string>

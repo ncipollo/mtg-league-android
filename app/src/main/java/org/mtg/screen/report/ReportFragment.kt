@@ -2,24 +2,18 @@ package org.mtg.screen.report
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.bottom_navigation.bottom_navigation
 import kotlinx.android.synthetic.main.fragment_report.*
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.mtg.R
 import org.mtg.screen.HomeFragment
-import org.mtg.util.BottomNavigationHelper
 import org.mtg.util.KeyboardHelper
 
 
-class ReportFragment : HomeFragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class ReportFragment : HomeFragment() {
     private companion object {
         const val AUTO_COMPLETE_LAYOUT = android.R.layout.simple_spinner_dropdown_item
 
@@ -41,22 +35,13 @@ class ReportFragment : HomeFragment(), BottomNavigationView.OnNavigationItemSele
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_report, container, false)
 
-    private val bottomNavigationHelper: BottomNavigationHelper by inject()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         view.setOnTouchListener { _, _ -> KeyboardHelper.hideSoftInput(view) }
-        setupBottomNavigation(view)
         setupNumberOfGames()
         setupSubmitButton()
         setupViewModel()
-    }
-
-    private fun setupBottomNavigation(view: View) {
-        bottom_navigation.selectedItemId = R.id.navigation_report
-        bottom_navigation.setOnNavigationItemSelectedListener(this)
-        bottomNavigationHelper.setupBottomNavigationTheme(view.context, bottom_navigation)
     }
 
     private fun setupNumberOfGames() {
@@ -156,7 +141,4 @@ class ReportFragment : HomeFragment(), BottomNavigationView.OnNavigationItemSele
             )
         )
     }
-
-    override fun onNavigationItemSelected(item: MenuItem) =
-        bottomNavigationHelper.onNavigationItemSelected(item, findNavController())
 }

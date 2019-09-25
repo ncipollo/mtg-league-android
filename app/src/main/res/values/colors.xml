@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@android:color/white</color>
-    <color name="colorPrimaryDark">@android:color/darker_gray</color>
-    <color name="colorAccent">@android:color/black</color>
+    <color name="primaryColor">#78909c</color>
+    <color name="primaryLightColor">#a7c0cd</color>
+    <color name="primaryDarkColor">#4b636e</color>
+    <color name="secondaryColor">#cfd8dc</color>
+    <color name="secondaryLightColor">#ffffff</color>
+    <color name="secondaryDarkColor">#9ea7aa</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+
     <color name="settings_background">@android:color/darker_gray</color>
     <color name="textColorPrimary">@android:color/white</color>
     <color name="textDarkColorPrimary">@android:color/black</color>
@@ -12,7 +18,17 @@
     <color name="standingsBackground">@color/settings_background</color>
     <color name="editTextColor">@android:color/holo_blue_dark</color>
 
+    <color name="score_color">#FFFFFF</color>
+
+    <color name="magic_white">#cccccc</color>
+    <color name="magic_black">#222222</color>
+    <color name="magic_blue">#2222ee</color>
+    <color name="magic_green">#22ee22</color>
+    <color name="magic_red">#ee2222</color>
+
+    <color name="dark_gray1">#111111</color>
     <color name="gray1">#777788</color>
+
 
 
 </resources>

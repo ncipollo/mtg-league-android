@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/scoreboardFragment">
+    app:startDestination="@id/playFragment">
 
     <fragment
         android:id="@+id/leaguesFragment"
@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_leagues"/>
 
     <fragment
-        android:id="@+id/scoreboardFragment"
-        android:name="org.mtg.screen.scoreboard.ScoreboardFragment"
+        android:id="@+id/playFragment"
+        android:name="org.mtg.screen.play.PlayFragment"
         tools:layout="@layout/fragment_scoreboard"/>
     <fragment
         android:id="@+id/reportFragment"

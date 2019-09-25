@@ -100,8 +100,4 @@
         android:text="@string/report_submit"
         app:backgroundTint="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/report_games_input_layout" />
-
-    <include
-        android:id="@+id/bottom_navigation"
-        layout="@layout/bottom_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
