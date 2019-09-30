@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Magic League</string>
+    <string name="app_name">Magic Up</string>
 
     <string name="default_health_value">20</string>
     <string name="color">Color</string>
