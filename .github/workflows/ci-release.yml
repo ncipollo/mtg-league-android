@@ -1,6 +1,9 @@
 name: Android CI Release
 
-on: [push]
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -13,7 +16,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Unit test with gradle
+    - name: Create release apk
       env:
         KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -22,5 +25,11 @@ jobs:
     - name: 'upload artifact'
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: build.tar.gz
+        name: magic-up.apk
         path: app/build/outputs/apk/release/magic-up.apk
+    - uses: ncipollo/release-action@v1
+        with:
+          artifact: "app/build/outputs/apk/release/magic-up.apk"
+          body: "TODO: Add release notes"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
