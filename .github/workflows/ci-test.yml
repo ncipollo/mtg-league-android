@@ -1,4 +1,4 @@
-name: Android CI
+name: Android CI Test
 
 on: [push]
 
@@ -13,7 +13,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Gradle
-      run: ./gradlew build
     - name: Unit test with gradle
       run: ./gradlew test
