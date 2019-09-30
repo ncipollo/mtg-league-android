@@ -11,4 +11,6 @@
 
     <color name="bottomNavColor">@color/secondaryLightColor</color>
     <color name="bottomNavColorSelected">@color/primaryDarkColor</color>
+
+    <color name="backgroundColor">@color/magic_white</color>
 </resources>
