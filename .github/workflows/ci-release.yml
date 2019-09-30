@@ -28,8 +28,9 @@ jobs:
         name: magic-up.apk
         path: app/build/outputs/apk/release/magic-up.apk
     - uses: ncipollo/release-action@v1
-        with:
-          artifact: "app/build/outputs/apk/release/magic-up.apk"
-          body: "TODO: Add release notes"
-          draft: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+      name: 'generate release'
+      with:
+        artifact: "app/build/outputs/apk/release/magic-up.apk"
+        body: "TODO: Add release notes"
+        draft: true
+        token: ${{ secrets.GITHUB_TOKEN }}
