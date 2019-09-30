@@ -4,6 +4,13 @@
         <item name="android:clickable">true</item>
     </style>
 
+    <style name="ColorCircle">
+        <item name="android:background">@drawable/filled_circle</item>
+        <item name="android:layout_width">@dimen/circle_size</item>
+        <item name="android:layout_height">@dimen/circle_size</item>
+        <item name="android:backgroundTintMode">multiply</item>
+    </style>
+
     <style name="Divider">
         <item name="android:background">?colorOnSurface</item>
         <item name="android:alpha">.20</item>

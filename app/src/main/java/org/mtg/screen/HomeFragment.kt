@@ -42,7 +42,7 @@ abstract class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.settings_menu -> {
-                findNavController().navigate(R.id.leaguesFragment)
+                findNavController().navigate(R.id.navigate_to_leagues)
                 true
             }
             android.R.id.home -> {

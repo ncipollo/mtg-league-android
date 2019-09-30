@@ -5,6 +5,27 @@
     android:id="@+id/navigation"
     app:startDestination="@id/playFragment">
 
+    <action android:id="@+id/navigate_to_leagues"
+        app:destination="@id/leaguesFragment"/>
+
+    <action android:id="@+id/navigate_to_play"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true"
+        app:destination="@id/playFragment"/>
+
+    <action android:id="@+id/navigate_to_report"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true"
+        app:destination="@id/reportFragment"/>
+
+    <action android:id="@+id/navigate_to_standings"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true"
+        app:destination="@id/standingsFragment"/>
+
     <fragment
         android:id="@+id/leaguesFragment"
         android:name="org.mtg.screen.leagues.LeaguesFragment"

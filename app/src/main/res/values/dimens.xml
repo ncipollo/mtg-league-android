@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="circle_size">56dp</dimen>
+    <dimen name="circle_horizontal_spacing_1">40dp</dimen>
+    <dimen name="circle_vertical_spacing_1">24dp</dimen>
+    <dimen name="circle_vertical_spacing_2">72dp</dimen>
+    <dimen name="color_picker_size">264dp</dimen>
+</resources>

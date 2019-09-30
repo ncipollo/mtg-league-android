@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="settings_background">@android:color/darker_gray</color>
     <color name="editTextColor">@android:color/holo_blue_dark</color>
-
+    <color name="settings_background">@android:color/darker_gray</color>
     <color name="score_color">#FFFFFF</color>
 
-    <color name="magic_white">#cccccc</color>
     <color name="magic_black">#222222</color>
     <color name="magic_blue">#2222ee</color>
     <color name="magic_green">#22ee22</color>
     <color name="magic_red">#ee2222</color>
+    <color name="magic_white">#cccccc</color>
 
     <color name="dark_gray1">#111111</color>
     <color name="gray1">#777788</color>

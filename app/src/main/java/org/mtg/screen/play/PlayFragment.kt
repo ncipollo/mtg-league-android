@@ -9,12 +9,19 @@ import kotlinx.android.synthetic.main.fragment_scoreboard.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.mtg.R
 import org.mtg.screen.HomeFragment
+import org.mtg.screen.color.ColorPickerFragment
+import org.mtg.screen.color.ColorPickerViewModel
 import org.mtg.view.ScoreView
+import org.mtg.viewmodel.activityViewModel
 
 class PlayFragment : HomeFragment() {
+    private companion object {
+        const val BOTTOM_PLAYER_TARGET = "bottom_player"
+        const val TOP_PLAYER_TARGET = "top_player"
+    }
+
     private val bottomPlayerScore get() = bottom_player_score
     private val topPlayerScore get() = top_player_score
-
     private val scoreReset get() = score_reset
 
     private val viewModel: PlayViewModel by viewModel()
@@ -29,7 +36,7 @@ class PlayFragment : HomeFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupScoreBoard()
-        setupViewModel()
+        setupViewModels()
     }
 
     private fun setupScoreBoard() {
@@ -39,11 +46,18 @@ class PlayFragment : HomeFragment() {
         bottomPlayerScore.setIncrementListener {
             viewModel.sendViewEvent(PlayViewEvent.IncrementBottomPlayer)
         }
+        bottomPlayerScore.setColorPickerListener {
+            ColorPickerFragment.show(childFragmentManager, BOTTOM_PLAYER_TARGET)
+        }
+
         topPlayerScore.setDecrementListener {
             viewModel.sendViewEvent(PlayViewEvent.DecrementTopPlayer)
         }
         topPlayerScore.setIncrementListener {
             viewModel.sendViewEvent(PlayViewEvent.IncrementTopPlayer)
+        }
+        topPlayerScore.setColorPickerListener {
+            ColorPickerFragment.show(childFragmentManager, TOP_PLAYER_TARGET)
         }
 
         scoreReset.setOnClickListener {
@@ -51,11 +65,24 @@ class PlayFragment : HomeFragment() {
         }
     }
 
-    private fun setupViewModel() {
+    private fun setupViewModels() {
         viewModel.viewState.observe(viewLifecycleOwner) {
             bottomPlayerScore.applyViewState(it.bottomScore)
             topPlayerScore.applyViewState(it.topScore)
         }
+
+        activityViewModel<ColorPickerViewModel>()
+            .colorChanged
+            .observe(viewLifecycleOwner) { (color, target) ->
+                when (target) {
+                    BOTTOM_PLAYER_TARGET -> viewModel.sendViewEvent(
+                        PlayViewEvent.UpdateBottomColor(color)
+                    )
+                    TOP_PLAYER_TARGET -> viewModel.sendViewEvent(
+                        PlayViewEvent.UpdateTopColor(color)
+                    )
+                }
+            }
     }
 
     private fun ScoreView.applyViewState(viewState: ScoreViewState) {
@@ -63,5 +90,6 @@ class PlayFragment : HomeFragment() {
         scoreText = viewState.scoreText
         scoreDeltaText = viewState.scoreDeltaText
         scoreDeltaTextShown = viewState.showDelta
+        toggleBrightColorPicker(viewState.brightColorPicker)
     }
 }

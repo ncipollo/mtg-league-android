@@ -40,11 +40,23 @@ class ScoreView @JvmOverloads constructor(
         score_background.setBackgroundResource(res)
     }
 
+    fun setColorPickerListener(listener:(View) -> Unit) {
+        color_picker.setOnClickListener { listener(it) }
+    }
+
     fun setDecrementListener(listener:(View) -> Unit) {
         decrement_click.setOnClickListener { listener(it) }
     }
 
     fun setIncrementListener(listener:(View) -> Unit) {
         increment_click.setOnClickListener { listener(it) }
+    }
+
+    fun toggleBrightColorPicker(brightColorPicker: Boolean) {
+        if (brightColorPicker) {
+            color_picker.setImageResource(R.drawable.color_picker_light)
+        } else {
+            color_picker.setImageResource(R.drawable.color_picker_dark)
+        }
     }
 }

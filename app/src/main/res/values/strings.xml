@@ -2,6 +2,12 @@
     <string name="app_name">Magic League</string>
 
     <string name="default_health_value">20</string>
+    <string name="color">Color</string>
+    <string name="color_black">Black</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_green">Green</string>
+    <string name="color_red">Red</string>
+    <string name="color_white">White</string>
     <string name="bottom_navigation_play">Play</string>
     <string name="bottom_navigation_play_add">+</string>
     <string name="bottom_navigation_play_subtract">-</string>
@@ -30,4 +36,5 @@
     <string name="standings_week_four">Week 4</string>
 
     <string name="toolbar_title_format">Magic League - %s</string>
+
 </resources>

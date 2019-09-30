@@ -3,6 +3,7 @@ package org.mtg.screen.play
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import org.mtg.model.Player
+import org.mtg.model.PlayerColor
 import org.mtg.model.Score
 import org.mtg.model.ScoreBoard
 import java.util.concurrent.TimeUnit
@@ -20,6 +21,8 @@ class PlayUseCase {
         object IncrementBottomPlayer : Action()
         object IncrementTopPlayer : Action()
         data class Reset(val life: Int = 20) : Action()
+        data class UpdateBottomColor(val color: PlayerColor) : Action()
+        data class UpdateTopColor(val color: PlayerColor) : Action()
     }
 
     data class Result(val scoreBoard: ScoreBoard)
@@ -29,10 +32,10 @@ class PlayUseCase {
 
     fun get(upstream: Flow<Action>) =
         upstream
-            .flatMapLatest {action ->
+            .flatMapLatest { action ->
                 flow {
                     emit(action)
-                    if (action !is Action.Reset){
+                    if (action !is Action.Reset) {
                         delay(LIFE_CHANGE_LIFE_SPAN)
                         emit(Action.ClearLifeChanges)
                     }
@@ -45,11 +48,13 @@ class PlayUseCase {
     private fun accumulate(scoreBoard: ScoreBoard, action: Action) =
         when (action) {
             Action.ClearLifeChanges -> clearLifeChanges(scoreBoard)
-            Action.DecrementBottomPlayer -> updateBottomPlayer(scoreBoard, -1)
-            Action.DecrementTopPlayer -> updateTopPlayer(scoreBoard, -1)
-            Action.IncrementBottomPlayer -> updateBottomPlayer(scoreBoard, 1)
-            Action.IncrementTopPlayer -> updateTopPlayer(scoreBoard, 1)
+            Action.DecrementBottomPlayer -> updateBottomPlayerScore(scoreBoard, -1)
+            Action.DecrementTopPlayer -> updateTopPlayerScore(scoreBoard, -1)
+            Action.IncrementBottomPlayer -> updateBottomPlayerScore(scoreBoard, 1)
+            Action.IncrementTopPlayer -> updateTopPlayerScore(scoreBoard, 1)
             is Action.Reset -> reset(scoreBoard, action.life)
+            is Action.UpdateBottomColor -> updateBottomPlayerColor(scoreBoard, action.color)
+            is Action.UpdateTopColor -> updateTopPlayerColor(scoreBoard, action.color)
         }
 
     private fun clearLifeChanges(scoreBoard: ScoreBoard): ScoreBoard {
@@ -61,10 +66,10 @@ class PlayUseCase {
     private fun clearPlayerLifeChanges(player: Player) =
         player.copy(score = player.score.copy(lifeChange = 0))
 
-    private fun updateBottomPlayer(scoreBoard: ScoreBoard, value: Int) =
+    private fun updateBottomPlayerScore(scoreBoard: ScoreBoard, value: Int) =
         scoreBoard.copy(bottomPlayer = updatePlayerScore(scoreBoard.bottomPlayer, value))
 
-    private fun updateTopPlayer(scoreBoard: ScoreBoard, value: Int) =
+    private fun updateTopPlayerScore(scoreBoard: ScoreBoard, value: Int) =
         scoreBoard.copy(topPlayer = updatePlayerScore(scoreBoard.topPlayer, value))
 
     private fun updatePlayerScore(player: Player, value: Int) = player + value
@@ -74,6 +79,15 @@ class PlayUseCase {
         val topPlayer = resetPlayerScore(scoreBoard.topPlayer, life)
         return ScoreBoard(bottomPlayer, topPlayer)
     }
+
+    private fun updateBottomPlayerColor(scoreBoard: ScoreBoard, color: PlayerColor) =
+        scoreBoard.copy(bottomPlayer = updatePlayerColor(scoreBoard.bottomPlayer, color))
+
+    private fun updateTopPlayerColor(scoreBoard: ScoreBoard, color: PlayerColor) =
+        scoreBoard.copy(topPlayer = updatePlayerColor(scoreBoard.topPlayer, color))
+
+    private fun updatePlayerColor(player: Player, color: PlayerColor) =
+        player.copy(color = color)
 
     private fun resetPlayerScore(player: Player, life: Int) = player.copy(Score(life = life))
 }

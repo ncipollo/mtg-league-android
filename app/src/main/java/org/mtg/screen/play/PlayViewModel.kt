@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.mtg.R
+import org.mtg.model.PlayerColor
 import org.mtg.model.ScoreBoard
 import org.mtg.viewmodel.MagicViewModel
 
@@ -34,6 +35,8 @@ class PlayViewModel(
             PlayViewEvent.IncrementBottomPlayer -> PlayUseCase.Action.IncrementBottomPlayer
             PlayViewEvent.IncrementTopPlayer -> PlayUseCase.Action.IncrementTopPlayer
             is PlayViewEvent.Reset -> PlayUseCase.Action.Reset(event.life)
+            is PlayViewEvent.UpdateBottomColor -> PlayUseCase.Action.UpdateBottomColor(event.color)
+            is PlayViewEvent.UpdateTopColor -> PlayUseCase.Action.UpdateTopColor(event.color)
         }
 
     private fun scoreboardToViewState(scoreBoard: ScoreBoard): PlayViewState =
@@ -49,6 +52,8 @@ sealed class PlayViewEvent {
     object IncrementBottomPlayer : PlayViewEvent()
     object IncrementTopPlayer : PlayViewEvent()
     data class Reset(val life: Int = 20) : PlayViewEvent()
+    data class UpdateBottomColor(val color: PlayerColor) : PlayViewEvent()
+    data class UpdateTopColor(val color: PlayerColor) : PlayViewEvent()
 }
 
 data class PlayViewState(
@@ -58,6 +63,7 @@ data class PlayViewState(
 
 data class ScoreViewState(
     @DrawableRes val backgroundColor: Int = R.color.magic_white,
+    val brightColorPicker: Boolean = false,
     val scoreText: String = "",
     val scoreDeltaText: String = "",
     val showDelta: Boolean = false

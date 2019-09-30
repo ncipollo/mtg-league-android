@@ -8,10 +8,15 @@ import org.junit.Test
 import org.mtg.flow.TestCollector
 import org.mtg.flow.testCollect
 import org.mtg.model.Player
+import org.mtg.model.PlayerColor
 import org.mtg.model.Score
 import org.mtg.model.ScoreBoard
 
 class PlayUseCaseTest {
+
+    private companion object {
+        val COLOR = PlayerColor.GREEN
+    }
 
     private val channel = BroadcastChannel<PlayUseCase.Action>(Channel.BUFFERED)
     private val upstream = channel.asFlow()
@@ -20,13 +25,13 @@ class PlayUseCaseTest {
     private val flow = upstream.let { useCase.get(it) }
 
     @Test
-    fun get_scoreBoardIsCached() = runBlockingTest {
+    fun get_cachesScoreBoard() = runBlockingTest {
         flow.testCollect(this)
         decrementBottom()
         advanceTimeBy(PlayUseCase.LIFE_CHANGE_LIFE_SPAN)
         channel.close()
 
-        val secondChannel =  BroadcastChannel<PlayUseCase.Action>(Channel.BUFFERED)
+        val secondChannel = BroadcastChannel<PlayUseCase.Action>(Channel.BUFFERED)
         val secondUpstream = secondChannel.asFlow()
         val collector = secondUpstream.let { useCase.get(it) }.testCollect(this)
         val player = Player() - 1
@@ -167,6 +172,38 @@ class PlayUseCaseTest {
         channel.close()
     }
 
+    @Test
+    fun get_updateBottomColor() = runBlockingTest {
+        val collector = flow.testCollect(this)
+
+        updateBottomColor()
+        advanceTimeBy(PlayUseCase.LIFE_CHANGE_LIFE_SPAN)
+
+        val player = Player(color = COLOR)
+        collector.assertScoreBoards(
+            ScoreBoard(),
+            ScoreBoard(bottomPlayer = player),
+            ScoreBoard(bottomPlayer = player)
+        )
+        channel.close()
+    }
+
+    @Test
+    fun get_updateTopColor() = runBlockingTest {
+        val collector = flow.testCollect(this)
+
+        updateTopColor()
+        advanceTimeBy(PlayUseCase.LIFE_CHANGE_LIFE_SPAN)
+
+        val player = Player(color = COLOR)
+        collector.assertScoreBoards(
+            ScoreBoard(),
+            ScoreBoard(topPlayer = player),
+            ScoreBoard(topPlayer = player)
+        )
+        channel.close()
+    }
+
     private fun TestCollector<PlayUseCase.Result>.assertScoreBoards(vararg boards: ScoreBoard) {
         val results = boards.map { PlayUseCase.Result(it) }
         assertValues(*results.toTypedArray())
@@ -182,4 +219,9 @@ class PlayUseCaseTest {
     private suspend fun incrementTop() = channel.send(PlayUseCase.Action.IncrementTopPlayer)
 
     private suspend fun reset() = channel.send(PlayUseCase.Action.Reset())
+
+    private suspend fun updateBottomColor() =
+        channel.send(PlayUseCase.Action.UpdateBottomColor(COLOR))
+
+    private suspend fun updateTopColor() = channel.send(PlayUseCase.Action.UpdateTopColor(COLOR))
 }
