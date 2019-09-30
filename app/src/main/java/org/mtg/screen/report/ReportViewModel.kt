@@ -5,9 +5,9 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.subjects.PublishSubject
+import org.mtg.domain.CurrentLeagueUseCase
 import org.mtg.model.MatchResult
 import org.mtg.model.User
-import org.mtg.domain.CurrentLeagueUseCase
 import org.mtg.viewmodel.MagicViewModel
 
 
@@ -87,7 +87,7 @@ class ReportViewModel(
 data class ReportViewEvent(val winnerId: Long, val loserId: Long, val gamesCount: Long = 2)
 
 data class ReportViewState(
-    val enableSubmit: Boolean = false,
+    val enableSubmit: Boolean = true,
     val leagueId: Long = 0,
     val reporting: Boolean = false,
     val statusText: String = "",

@@ -7,28 +7,25 @@
 
     <TextView
         android:id="@+id/report_title"
+        style="@style/ReportTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/report_title"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/report_winner_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/ReportTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="80dp"
         android:layout_marginRight="16dp"
         android:hint="@string/report_winner"
-        app:boxStrokeColor="@android:color/black"
         app:endIconMode="clear_text"
-        app:hintTextColor="@android:color/black"
         app:layout_constraintTop_toTopOf="@id/report_title">
 
         <AutoCompleteTextView
@@ -43,16 +40,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/report_loser_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/ReportTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
         android:hint="@string/report_loser"
-        app:boxStrokeColor="@android:color/black"
         app:endIconMode="clear_text"
-        app:hintTextColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/report_winner_input_layout">
 
         <AutoCompleteTextView
@@ -67,15 +62,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/report_games_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/ReportTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
         android:hint="@string/report_games_played"
-        app:boxStrokeColor="@android:color/black"
-        app:hintTextColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/report_loser_input_layout">
 
         <AutoCompleteTextView
@@ -98,6 +91,5 @@
         android:layout_marginRight="16dp"
         android:minHeight="58dp"
         android:text="@string/report_submit"
-        app:backgroundTint="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/report_games_input_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

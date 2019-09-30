@@ -1,14 +1,4 @@
 <resources>
-
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorOnPrimary">@color/primaryTextColor</item>
-
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorOnSecondary">@color/secondaryTextColor</item>
-    </style>
-
     <style name="Click">
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:clickable">true</item>
@@ -30,6 +20,18 @@
 
     <style name="ReportText">
         <item name="android:padding">8dp</item>
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <style name="ReportTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">?colorOnSurface</item>
+        <item name="boxStrokeColor">?colorOnSurface</item>
+
+    </style>
+
+    <style name="ReportTitle">
+        <item name="android:textColor">?colorOnSurface</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="ScoreDivider">
@@ -53,6 +55,10 @@
         <item name="android:shadowColor">#222</item>
         <item name="android:textColor">@color/score_color</item>
         <item name="android:textSize">108sp</item>
+    </style>
+
+    <style name="StandingsText">
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
 
 </resources>

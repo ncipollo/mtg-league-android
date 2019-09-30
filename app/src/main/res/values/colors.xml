@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#78909c</color>
-    <color name="primaryLightColor">#a7c0cd</color>
-    <color name="primaryDarkColor">#4b636e</color>
-    <color name="secondaryColor">#cfd8dc</color>
-    <color name="secondaryLightColor">#ffffff</color>
-    <color name="secondaryDarkColor">#9ea7aa</color>
-    <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#000000</color>
-
     <color name="settings_background">@android:color/darker_gray</color>
-    <color name="textColorPrimary">@android:color/white</color>
-    <color name="textDarkColorPrimary">@android:color/black</color>
-    <color name="standingsDarkCardBackground">#212121</color>
-    <color name="standingsCardBackground">@android:color/white</color>
-    <color name="standingsDarkBackground">@android:color/black</color>
-    <color name="standingsBackground">@color/settings_background</color>
     <color name="editTextColor">@android:color/holo_blue_dark</color>
 
     <color name="score_color">#FFFFFF</color>
@@ -28,7 +13,5 @@
 
     <color name="dark_gray1">#111111</color>
     <color name="gray1">#777788</color>
-
-
 
 </resources>
