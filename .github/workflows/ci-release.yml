@@ -20,7 +20,7 @@ jobs:
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
       run: ./gradlew assembleRelease
     - name: 'upload artifact'
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: build.tar.gz
-          path: app/build/outputs/apk/release/magic-up.apk
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: build.tar.gz
+        path: app/build/outputs/apk/release/magic-up.apk
