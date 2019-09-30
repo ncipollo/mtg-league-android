@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 class PlayUseCase {
     companion object {
-        val LIFE_CHANGE_LIFE_SPAN = TimeUnit.SECONDS.toMillis(5)
+        val LIFE_CHANGE_LIFE_SPAN = TimeUnit.SECONDS.toMillis(2)
     }
 
     sealed class Action {
