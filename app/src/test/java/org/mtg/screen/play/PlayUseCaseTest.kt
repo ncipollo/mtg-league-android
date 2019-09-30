@@ -24,6 +24,7 @@ class PlayUseCaseTest {
         flow.testCollect(this)
         decrementBottom()
         advanceTimeBy(PlayUseCase.LIFE_CHANGE_LIFE_SPAN)
+        channel.close()
 
         val secondChannel =  BroadcastChannel<PlayUseCase.Action>(Channel.BUFFERED)
         val secondUpstream = secondChannel.asFlow()
@@ -33,7 +34,6 @@ class PlayUseCaseTest {
             ScoreBoard(bottomPlayer = player.copy(score = player.score.copy(lifeChange = 0)))
         )
 
-        channel.close()
         secondChannel.close()
     }
 
