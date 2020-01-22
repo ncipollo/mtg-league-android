@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import androidx.core.content.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_report.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -67,7 +70,8 @@ class ReportFragment : HomeFragment() {
             validateGames(games)
 
             if (winnerId != null && loserId != null && games != null) {
-                val event = ReportViewEvent(winnerId = winnerId, loserId = loserId, gamesCount = games)
+                val event =
+                    ReportViewEvent(winnerId = winnerId, loserId = loserId, gamesCount = games)
                 viewModel.sendEvent(event)
             }
         }
@@ -75,7 +79,7 @@ class ReportFragment : HomeFragment() {
 
     private fun validateWinner(id: Long?) {
         winnerText.error = if (id == null) {
-             "Please select a user in the league"
+            "Please select a user in the league"
         } else {
             null
         }
@@ -101,13 +105,17 @@ class ReportFragment : HomeFragment() {
         viewModel.viewState.observe(viewLifecycleOwner) {
             applyViewState(it)
         }
+        viewModel.clearFields.observe(viewLifecycleOwner) {
+            clearFields()
+        }
         viewModel.snackText.observe(viewLifecycleOwner) {
             applySnack(it)
         }
+
     }
 
     private fun applySnack(snackText: String) {
-        Snackbar.make(submitButton, snackText, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(submitButton, snackText, Snackbar.LENGTH_LONG).show()
     }
 
     private fun applyViewState(viewState: ReportViewState) {
@@ -140,5 +148,23 @@ class ReportFragment : HomeFragment() {
                 userItems.map { it.name }
             )
         )
+    }
+
+    private fun clearFields() {
+        gamesText.clearField()
+        loserText.clearField()
+        winnerText.clearField()
+
+        hideKeyboard()
+    }
+
+    private fun EditText.clearField() {
+        setText("")
+        clearFocus()
+    }
+
+    private fun hideKeyboard() {
+        requireContext().getSystemService<InputMethodManager>()
+            ?.hideSoftInputFromWindow(gamesText.windowToken, 0)
     }
 }

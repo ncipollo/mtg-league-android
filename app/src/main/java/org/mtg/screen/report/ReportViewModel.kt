@@ -19,6 +19,11 @@ class ReportViewModel(
 
     val viewState = viewStateSource.toLiveData()
 
+    val clearFields =
+        viewStateSource.filter { it.successfulReport }
+            .map { Unit }
+            .toSingleLiveEvent()
+
     val snackText =
         viewStateSource.map { it.statusText }
             .filter { it.isNotEmpty() }
@@ -51,7 +56,8 @@ class ReportViewModel(
             .compose(reportUseCase.create())
             .ofType<ReportUseCase.Result.RefreshComplete>()
 
-    private fun List<User>.items() = map { UserItem(name = "${it.firstName} ${it.lastName}", user = it) }
+    private fun List<User>.items() =
+        map { UserItem(name = "${it.firstName} ${it.lastName}", user = it) }
 
     private fun report(event: ReportViewEvent, state: ReportViewState) =
         Observable.just(ReportUseCase.Action.ReportMatch(matchResult(event, state.leagueId)))
@@ -80,7 +86,8 @@ class ReportViewModel(
 
     private fun loadingViewState(state: ReportViewState) = state.copy(reporting = true)
 
-    private fun successViewState(state: ReportViewState) = state.copy(statusText = "Reported Match! Sick!")
+    private fun successViewState(state: ReportViewState) =
+        state.copy(statusText = "Reported Match! Sick!", successfulReport = true)
 }
 
 data class ReportViewEvent(val winnerId: Long, val loserId: Long, val gamesCount: Long = 2)
@@ -90,6 +97,7 @@ data class ReportViewState(
     val leagueId: Long = 0,
     val reporting: Boolean = false,
     val statusText: String = "",
+    val successfulReport: Boolean = false,
     val users: List<UserItem> = emptyList()
 )
 

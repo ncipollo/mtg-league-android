@@ -9,8 +9,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mtg.model.User
 import org.mtg.domain.CurrentLeagueUseCase
+import org.mtg.model.User
 import org.mtg.viewmodel.TestLifeCycleOwner
 import org.mtg.viewmodel.TestObserver
 import java.io.IOException
@@ -39,6 +39,7 @@ class ReportViewModelTest {
         on { create() } doReturn ObservableTransformer { source -> source.switchMap { reportSubject.take(2) } }
     }
 
+    private val clearFieldsObserver = TestObserver<Unit>()
     private val lifecycleOwner = TestLifeCycleOwner.started()
     private val snackStateObserver = TestObserver<String>()
     private val viewStateObserver = TestObserver<ReportViewState>()
@@ -46,6 +47,7 @@ class ReportViewModelTest {
 
     @Test
     fun sendEvent_reportFailed() {
+        viewModel.clearFields.observe(lifecycleOwner, clearFieldsObserver)
         viewModel.snackText.observe(lifecycleOwner, snackStateObserver)
         viewModel.viewState.observe(lifecycleOwner, viewStateObserver)
 
@@ -54,6 +56,7 @@ class ReportViewModelTest {
         sendReport()
         respondWithReportError()
 
+        clearFieldsObserver.assertValues()
         snackStateObserver.assertValues("Failed to report match!\nError: ${ERROR.message}")
         viewStateObserver.assertValues(
             ReportViewState(),
@@ -79,6 +82,7 @@ class ReportViewModelTest {
 
     @Test
     fun sendEvent_reportSuccessful() {
+        viewModel.clearFields.observe(lifecycleOwner, clearFieldsObserver)
         viewModel.snackText.observe(lifecycleOwner, snackStateObserver)
         viewModel.viewState.observe(lifecycleOwner, viewStateObserver)
 
@@ -87,6 +91,7 @@ class ReportViewModelTest {
         sendReport()
         respondWithReportSuccess()
 
+        clearFieldsObserver.assertValues(Unit)
         snackStateObserver.assertValues("Reported Match! Sick!")
         viewStateObserver.assertValues(
             ReportViewState(),
@@ -105,6 +110,7 @@ class ReportViewModelTest {
                 enableSubmit = true,
                 leagueId = LEAGUE_ID,
                 statusText = "Reported Match! Sick!",
+                successfulReport = true,
                 users = listOf(LOSER, WINNER).items()
             )
         )
@@ -112,12 +118,14 @@ class ReportViewModelTest {
 
     @Test
     fun viewState() {
+        viewModel.clearFields.observe(lifecycleOwner, clearFieldsObserver)
         viewModel.snackText.observe(lifecycleOwner, snackStateObserver)
         viewModel.viewState.observe(lifecycleOwner, viewStateObserver)
 
         respondWithCurrentLeague()
         respondWithRefreshComplete()
 
+        clearFieldsObserver.assertValues()
         snackStateObserver.assertValues()
         viewStateObserver.assertValues(
             ReportViewState(),
