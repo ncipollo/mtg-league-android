@@ -10,7 +10,6 @@ import org.mtg.model.MatchResult
 import org.mtg.model.User
 import org.mtg.viewmodel.MagicViewModel
 
-
 class ReportViewModel(
     private val currentLeagueUseCase: CurrentLeagueUseCase,
     private val reportUseCase: ReportUseCase
