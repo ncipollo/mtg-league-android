@@ -4,10 +4,10 @@
     <color name="settings_background">@android:color/darker_gray</color>
     <color name="score_color">#FFFFFF</color>
 
-    <color name="magic_black">#222222</color>
-    <color name="magic_blue">#2222ee</color>
-    <color name="magic_green">#22ee22</color>
-    <color name="magic_red">#ee2222</color>
+    <color name="magic_black">#0f050a</color>
+    <color name="magic_blue">#209ad1</color>
+    <color name="magic_green">#9cd3af</color>
+    <color name="magic_red">#ac151b</color>
     <color name="magic_white">#e7e7e7</color>
 
     <color name="dark_gray1">#111111</color>
